@@ -6,6 +6,18 @@
     <div class="features">
         <h1>Главная страница</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem perspiciatis ratione rem repudiandae voluptatum? Amet enim fugiat magnam quas reiciendis.</p>
-        <button class="btn btn-warning">На страницу про нас</button>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.name }}<br>
+            {{ form.date_birth }}<br>
+            {{ form.phone_number }}<br>
+            {{ form.email }}<br>
+            {{ form.city }}<br>
+            {{ form.site_1 }}<br>
+            {{ form.site_2 }}<br>
+            {{ form.site_3 }}<br>
+            <span>{{ error }}</span>
+            <button class="btn btn-warning" type="submit">Отправить</button>
+        </form>
     </div>
 {% endblock %}
