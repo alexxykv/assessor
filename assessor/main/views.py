@@ -11,6 +11,7 @@ def index(request):
             # file.write(form.cleaned_data.get('name'))
             # file.close()
             form.save() # Сохранить в БД
+            pass
         else:
             error = 'Форма была неверной'
 

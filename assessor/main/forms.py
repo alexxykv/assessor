@@ -1,10 +1,10 @@
 from .models import Main
-from django.forms import ModelForm, TextInput, DateInput, EmailInput
+from django.forms import ModelForm, TextInput, DateInput, URLInput, EmailInput
 
 class MainForm(ModelForm):
     class Meta:
         model = Main
-        fields = ['name', 'date_birth', 'phone_number', 'email', 'city', 'site_1', 'site_2', 'site_3']
+        fields = ['name', 'date_birth', 'phone_number', 'email', 'city', 'site_1', 'site_2', 'site_3', 'site_4', 'site_5', 'site_6', 'site_7', 'site_8', 'site_9', 'site_10']
 
         widgets = {
             'name': TextInput(attrs={
@@ -27,16 +27,44 @@ class MainForm(ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Город'
             }),
-            'site_1': TextInput(attrs={
+            'site_1': URLInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Сайт 1'
             }),
-            'site_2': TextInput(attrs={
+            'site_2': URLInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Сайт 2'
             }),
-            'site_3': TextInput(attrs={
+            'site_3': URLInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Сайт 3'
+            }),
+            'site_4': URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Сайт 4'
+            }),
+            'site_5': URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Сайт 5'
+            }),
+            'site_6': URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Сайт 6'
+            }),
+            'site_7': URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Сайт 7'
+            }),
+            'site_8': URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Сайт 8'
+            }),
+            'site_9': URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Сайт 9'
+            }),
+            'site_10': URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Сайт 10'
             })
         }
