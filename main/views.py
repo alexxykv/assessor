@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Main
 from .forms import MainForm
 from parsing import gitpars
+from parsing import habr
+import json
 
 def index(request):
     error = ''
@@ -15,7 +17,9 @@ def index(request):
             # file.close()
             # form.save() # Сохранить в БД
             chel = gitpars.GithubParser("https://github.com/ash2k")
+            chel2 = json.loads(habr.parser.get_user("https://habr.com/ru/users/lounah/"))
             info_array.append(chel.languages())
+            info_array.append(chel2)
 
             flag = True
             pass
