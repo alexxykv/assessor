@@ -6,11 +6,11 @@
     <div class="features">
         <h1>Главная страница</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem perspiciatis ratione rem repudiandae voluptatum? Amet enim fugiat magnam quas reiciendis.</p>
-        {% if flag %}
-            {% for i in info_array %}
-                {{ i }}
-            {% endfor %}
-        {% else %}
+<!--        {% if flag %}-->
+<!--            {% for i in info_array %}-->
+<!--                {{ i }}-->
+<!--            {% endfor %}-->
+<!--        {% else %}-->
             <form method="POST">
                 {% csrf_token %}
                 {{ form.name }}<br>

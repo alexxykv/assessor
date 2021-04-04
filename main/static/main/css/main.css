@@ -65,8 +65,41 @@ main .features p {
     margin: 20px auto;
 }
 
+main .block-res{
+    float:left;
+    color: #fff;
+    margin-top: 100px;
+    border: 2px solid #fff;
+    background: #808080;
+    border-radius: 10px;
+    width: 75%;
+    margin-left: 50px;
+}
+
+main .block-res h2{
+    text-align: center;
+    font-size: 40px;
+
+}
+
+main .block-res h3{
+    text-align: left;
+    font-size: 20px;
+    margin-left: 10px;
+    font-style: italic;
+}
+
 form {
     margin-left: 32%;
     width: 500px;
     margin-top: 50px;
 }
+
+.diagramm {
+    float: left;
+    width: 45%;
+}
+
+
+
+

@@ -1,0 +1,87 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Результаты{% endblock %}
+
+{% block content %}
+        <div class="block-res">
+            <h2>GitHub</h2>
+            <div class="diagramm">
+                <canvas id="myChart"></canvas>
+            </div>
+            <h3>Карма:</h3>
+            <h3>Рейтинг:</h3>
+            <h3>Фолловеры:</h3>
+            <h3>Подписки:</h3>
+        </div>
+
+        <div class="block-res">
+            <h2>Habr</h2>
+            <h3>Карма:</h3>
+            <h3>Рейтинг:</h3>
+            <h3>Фолловеры:</h3>
+            <h3>Подписки:</h3>
+        </div>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+        <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var lang_array = [];
+            var data_array = [];
+        </script>
+        {% for key, value in info_array.items %}
+            <script>
+                lang_array.push('{{ key }}');
+                data_array.push(parseInt('{{ value }}', 10));
+            </script>
+        {% endfor %}
+        <script>
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: lang_array,
+                    datasets: [{
+                        data: data_array,
+                        backgroundColor: ['#e91e63', '#00e676', '#ff5722', '#1e88e5', '#ffd600', '#705335', '#9acd32', '#f3da0b'],
+                        borderWidth: 0.5,
+                        borderColor: '#ddd'
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Языки программирования',
+                        position: 'top',
+                        fontSize: 16,
+                        fontColor: '#111',
+                        padding: 20
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 20,
+                            fontColor: '#111',
+                            padding: 15
+                        }
+                    },
+                    tooltips: {
+                        enabled: false
+                    },
+                    plugins: {
+                        datalabels: {
+                            color: '#111',
+                            textAlign: 'center',
+                            font: {
+                                lineHeight: 1.6
+                            },
+                            formatter: function (value, ctx) {
+                                return ctx.chart.data.labels[ctx.dataIndex] + '\n' + value + '%';
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+{% endblock %}
