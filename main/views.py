@@ -18,11 +18,11 @@ def index(request):
                     sites.append(site)
 
 
-            chels_dict = CheckUrl(sites).check()
-            git_chel = chels_dict['github.com']
-            info_array = {}
-            for i in git_chel.languages():
-                info_array[i[0]] = i[1]
+            # chels_dict = CheckUrl(sites).check()
+            # git_chel = chels_dict['github.com']
+            # info_array = {}
+            # for i in git_chel.languages():
+            #     info_array[i[0]] = i[1]
 
             data = {
                 'form': form,
