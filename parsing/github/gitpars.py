@@ -2,7 +2,6 @@ import requests
 import json
 import math
 
-
 class GithubParser:
 
     def __init__(self, url):

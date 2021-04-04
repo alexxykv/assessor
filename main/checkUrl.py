@@ -1,7 +1,6 @@
 import re
-from parsing.habr import parser
 from parsing.github import gitpars
-import json
+from parsing.habr.user import User
 
 
 class CheckUrl:
@@ -22,4 +21,5 @@ class CheckUrl:
         return gitpars.GithubParser(self.url)
 
     def habr(self):
-        return json.loads(parser.get_user(self.url))
+        nick = self.url.split('/')[-2]
+        return User.get(nick)
