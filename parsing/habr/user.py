@@ -1,6 +1,5 @@
 from .utils import fetch, get_text
 from .comment import Comment
-from .post import Post
 from .regex import RegexUser
 from .urls import URL
 
@@ -74,8 +73,8 @@ class User:
     def _get_stats(self, text):
         stats = fetch(RegexUser.STATS, text)
         return {
-            'karma': stats[0].replace(',', '.'),
-            'rating': stats[1].replace(',', '.'),
+            'karma': stats[0].replace(',', '.').replace('\xa0', ''),
+            'rating': stats[1].replace(',', '.').replace('\xa0', ''),
             'followers': stats[2], 'following': stats[3]
         } if stats else ''
 
