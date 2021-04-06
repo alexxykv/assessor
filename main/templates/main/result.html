@@ -3,24 +3,39 @@
 {% block title %}Результаты{% endblock %}
 
 {% block content %}
+
         <div class="block-res">
-            {{ info2_array }}
             <h2>GitHub</h2>
             <div class="diagramm">
                 <canvas id="myChart"></canvas>
             </div>
-            <h3>Карма:</h3>
-            <h3>Рейтинг:</h3>
             <h3>Фолловеры:</h3>
             <h3>Подписки:</h3>
         </div>
 
         <div class="block-res">
             <h2>Habr</h2>
-            <h3>Карма:</h3>
-            <h3>Рейтинг:</h3>
-            <h3>Фолловеры:</h3>
-            <h3>Подписки:</h3>
+            <div class="block">
+            <h3>Карма: {{ habr_array.0 }}</h3>
+            <h3>Рейтинг: {{ habr_array.1 }}</h3>
+            <h3>Фолловеры: {{ habr_array.2 }}</h3>
+            <h3>Подписки: {{ habr_array.3 }}</h3>
+            <h3>Вклады:</h3>
+            <ul>
+                {% for i in contributions %}
+                    <a href="{{ i.0 }}" style="color: #fff;"><li>{{ i.0 }} - {{ i.1 }}</li></a>
+                {% endfor %}
+            </ul>
+            </div>
+        <div class="block">
+            <h3>Посты:</h3>
+            <ul>
+                {% for i in posts %}
+                    <li>{{ i.title }}</li>
+                    <h3><i class="fas fa-arrows-alt-v"></i> {{ i.voitings }} <i class="fas fa-bookmark"></i> {{ i.favs_count }} <i class="far fa-eye"></i> {{ i.views }}</h3>
+                {% endfor %}
+            </ul>
+        </div>
         </div>
 
 
@@ -86,3 +101,4 @@
             });
         </script>
 {% endblock %}
+

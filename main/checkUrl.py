@@ -1,6 +1,6 @@
 import re
 from parsing.github import gitpars
-from parsing.habr.user import User
+
 
 
 class CheckUrl:
@@ -22,4 +22,4 @@ class CheckUrl:
 
     def habr(self):
         nick = self.url.split('/')[-2]
-        return User.get(nick)
+        return nick

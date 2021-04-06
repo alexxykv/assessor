@@ -1,15 +1,16 @@
-import re
 from django.shortcuts import render
 from .forms import MainForm
-from parsing.github import gitpars
 from .checkUrl import CheckUrl
 from parsing.habr.user import User
+from parsing.habr.post import Post
 
 
 def index(request):
     error = ''
     info_array = {}
-    info2_array = []
+    habr_array = []
+    contributions = []
+    posts = []
     if request.method == "POST":
         form = MainForm(request.POST or None)
         if form.is_valid():
@@ -19,19 +20,41 @@ def index(request):
                 if len(site) != 0:
                     sites.append(site)
 
-            # chels_dict = CheckUrl(sites).check()
-            # habr_chel = chels_dict['habr.com']
-            # info2_array.append(habr_chel)
-            #
-            # git_chel = chels_dict['github.com']
-            # for i in git_chel.languages():
-            #     info_array[i[0]] = i[1]
-            #     print(i)
+            chels_dict = CheckUrl(sites).check()
+            if 'github.com' in chels_dict:
+                git_chel = chels_dict['github.com']
+                for i in git_chel.languages():
+                    info_array[i[0]] = i[1]
+
+            if 'habr.com' in chels_dict:
+                habr_nick = chels_dict['habr.com']
+                # MAIN INFO
+                habr_chel = User.get(habr_nick)
+                habr_array.append(habr_chel['stats']['karma'])  # Карма
+                habr_array.append(habr_chel['stats']['rating']) # Рейтинг
+                habr_array.append(habr_chel['stats']['followers'])  # Фолловеры
+                habr_array.append(habr_chel['stats']['following']) # Подписки
+                for i in habr_chel['contribution']:
+                    contributions.append([i['url'], i['value']])
+
+                # POSTS
+                habr_posts = User.get_posts(habr_nick)
+                for i in habr_posts:
+                    info = {}
+                    info['title'] = i['title']
+                    info['voitings'] = Post.get(i['id'])['voitings']
+                    info['favs_count'] = Post.get(i['id'])['favs_count']
+                    info['views'] = Post.get(i['id'])['views']
+                    posts.append(info)
+
+
 
             data = {
                 'form': form,
                 'info_array': info_array,
-                'info2_array': info2_array
+                'habr_array': habr_array,
+                'contributions': contributions,
+                'posts': posts
             }
             return render(request, 'main/result.html', data)
         else:

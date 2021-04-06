@@ -74,11 +74,15 @@ main .block-res{
     border-radius: 10px;
     width: 75%;
     margin-left: 50px;
+    max-width: 100%;
+    height: auto;
+    overflow:hidden
 }
 
 main .block-res h2{
     text-align: center;
     font-size: 40px;
+    font-weight: bold;
 
 }
 
@@ -87,6 +91,8 @@ main .block-res h3{
     font-size: 20px;
     margin-left: 10px;
     font-style: italic;
+    font-weight: lighter;
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 }
 
 form {
@@ -96,6 +102,11 @@ form {
 }
 
 .diagramm {
+    float: left;
+    width: 45%;
+}
+
+.block {
     float: left;
     width: 45%;
 }
