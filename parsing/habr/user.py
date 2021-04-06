@@ -127,11 +127,17 @@ class User:
         url = URL.user_posts(nickname, page)
         text = get_text(url)
         posts = fetch(RegexUser.POSTS, text)
+        voitings = fetch(RegexUser.POST_VOITINGS, text)
+        views = fetch(RegexUser.POST_VIEWS, text)
+        favs_count = fetch(RegexUser.POST_FAVS_COUNT, text)
         for i in range(len(posts)):
             posts[i] = {
                 'type': posts[i][0],
                 'id': posts[i][1],
-                'title': posts[i][2]
+                'title': posts[i][2],
+                'voitings': voitings[i],
+                'views': views[i],
+                'favs_count': favs_count[i]
             }
         return posts
 
