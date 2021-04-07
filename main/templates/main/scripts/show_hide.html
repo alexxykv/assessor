@@ -3,13 +3,13 @@
         if (document.getElementById(show)) {
             document.getElementById(show).remove();
             document.getElementById(hide).innerHTML = `<i class=\"fas fa-caret-square-right\" id=\"${hide}\" ></i>`;
-        }
-        else {
+        } else {
             document.getElementById(hide).innerHTML = `<i class=\"fas fa-caret-square-down\" id=\"${show}\" ></i>`;
         }
     }
+
     function view(id) {
         style = document.getElementById(id).style;
         style.display = (style.display == 'block') ? 'none' : 'block';
     }
-    </script>
+</script>

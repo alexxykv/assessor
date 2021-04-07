@@ -21,7 +21,7 @@ class Main(models.Model):
     site_10 = models.URLField('Сайт 10', max_length=250, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.firstName
 
     class Meta:
         verbose_name = 'Кандидат'
