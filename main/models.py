@@ -1,11 +1,14 @@
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 class Main(models.Model):
-    name = models.CharField('ФИО', max_length=100)
+    firstName = models.CharField('Имя', max_length=25)
+    middleName = models.CharField('Фамилия', max_length=25)
+    lastName = models.CharField('Отчество', max_length=25)
     date_birth = models.DateField('Дата рождения')
-    phone_number = models.CharField('Номер телефона', max_length=12)
-    email = models.EmailField('Email')
     city = models.CharField('Город', max_length=25)
+    phone_number = models.TextField('Телефон', max_length=11)
+    email = models.EmailField('Email')
     site_1 = models.URLField('Сайт 1', max_length=250, blank=True)
     site_2 = models.URLField('Сайт 2', max_length=250, blank=True)
     site_3 = models.URLField('Сайт 3', max_length=250, blank=True)

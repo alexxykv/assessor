@@ -13,7 +13,9 @@
 <!--        {% else %}-->
             <form method="POST">
                 {% csrf_token %}
-                {{ form.name }}<br>
+                {{ form.firstName }}<br>
+                {{ form.middleName }}<br>
+                {{ form.lastName }}<br>
                 {{ form.date_birth }}<br>
                 {{ form.phone_number }}<br>
                 {{ form.email }}<br>
