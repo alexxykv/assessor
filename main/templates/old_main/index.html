@@ -1,0 +1,46 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+    <div class="features">
+        <h1>Главная страница</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem perspiciatis ratione rem repudiandae voluptatum? Amet enim fugiat magnam quas reiciendis.</p>
+<!--        {% if flag %}-->
+<!--            {% for i in info_array %}-->
+<!--                {{ i }}-->
+<!--            {% endfor %}-->
+<!--        {% else %}-->
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.firstName }}<br>
+                {{ form.middleName }}<br>
+                {{ form.lastName }}<br>
+                {{ form.date_birth }}<br>
+                {{ form.phone_number }}<br>
+                {{ form.email }}<br>
+                {{ form.city }}<br>
+                <div id="input0"></div>
+                <button class="btn btn-danger" type="button" onclick="addInput()">Добавить сайт</button>
+                <span>{{ error }}</span>
+                <button class="btn btn-warning" type="submit">Отправить</button>
+                <script>
+                    var x = 0;
+
+                    function addInput() {
+                        if (x < 10) {
+                            var form_array = ['{{ form.site_1 }}', '{{ form.site_2 }}', '{{ form.site_3 }}', '{{ form.site_4 }}', '{{ form.site_5 }}', '{{ form.site_6 }}',
+                            '{{ form.site_7 }}', '{{ form.site_8 }}', '{{ form.site_9 }}', '{{ form.site_10 }}']
+                            var str = form_array[x] + '<br>' +'<div id="input' + (x + 1) + '"></div>';
+                            document.getElementById('input' + x).innerHTML = str;
+                            x++;
+                      } else {
+                        alert('Не больше десяти сайтов');
+                      }
+                    }
+                </script>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}
+
