@@ -3,47 +3,56 @@ from .forms import MainForm
 from .checkUrl import CheckUrl
 from parsing.habr.user import User
 
+def getting_sites(form):
+    sites = []
+    for i in range(1, 11):
+        site = form.cleaned_data.get(f"site_{i}")
+        if len(site) != 0:
+            sites.append(site)
+    return sites
+
+def habr_pars(urls, contributions, posts):
+    habr_nick = urls['habr.com']
+
+    # MAIN INFO
+    habr = User.get(habr_nick)
+    habr_array = [habr['stats']['karma'], habr['stats']['rating'], habr['stats']['followers'],
+                  habr['stats']['following']]
+
+    # CONTRIBUTIONS
+    for i in habr['contribution']:
+        contributions.append([i['url'], i['value']])
+
+    # POSTS
+    habr_posts = User.get_posts(habr_nick)
+    for post in habr_posts:
+        posts.append({
+            'title': post['title'],
+            'voitings': post['voitings'],
+            'favs_count': post['favs_count'],
+            'views': post['views']
+        })
+
+def git_pars(urls, info_array):
+    github = urls['github.com']
+    for i in github.languages():
+        info_array[i[0]] = i[1]
+
 def index(request):
     error = ''
-    info_array = {}
-    habr_array = []
-    contributions = []
-    posts = []
+    info_array = {}   # Содержит языки программирования и проценты использования их | GitHub
+    habr_array = []   # Содержит базовую информацию о человеке | Habr
+    contributions = []   # Вклады | Habr
+    posts = []   # Посты | Habr
     if request.method == "POST":
         form = MainForm(request.POST or None)
         if form.is_valid():
-            sites = []
-            for i in range(1, 11):
-                site = form.cleaned_data.get(f"site_{i}")
-                if len(site) != 0:
-                    sites.append(site)
+            urls = CheckUrl(getting_sites(form)).check()
+            if 'github.com' in urls:
+                git_pars(urls, info_array)
 
-            chels_dict = CheckUrl(sites).check()
-            if 'github.com' in chels_dict:
-                git_chel = chels_dict['github.com']
-                for i in git_chel.languages():
-                    info_array[i[0]] = i[1]
-
-            if 'habr.com' in chels_dict:
-                habr_nick = chels_dict['habr.com']
-                # MAIN INFO
-                habr_chel = User.get(habr_nick)
-                habr_array.append(habr_chel['stats']['karma'])  # Карма
-                habr_array.append(habr_chel['stats']['rating'])  # Рейтинг
-                habr_array.append(habr_chel['stats']['followers'])  # Фолловеры
-                habr_array.append(habr_chel['stats']['following'])  # Подписки
-                for i in habr_chel['contribution']:
-                    contributions.append([i['url'], i['value']])
-
-                # POSTS
-                habr_posts = User.get_posts(habr_nick)
-                for post in habr_posts:
-                    posts.append({
-                        'title': post['title'],
-                        'voitings': post['voitings'],
-                        'favs_count': post['favs_count'],
-                        'views': post['views']
-                    })
+            if 'habr.com' in urls:
+                habr_pars(urls, contributions, posts)
 
             data = {
                 'form': form,
