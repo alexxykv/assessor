@@ -8,24 +8,24 @@
         <h2>Результаты</h2>
     </div>
     <h4 class="mb-4">Habr <a href="#" onclick="show('show_habr', 'hide_habr'); view('hidden_habr'); return false">
-        <span><i class="fas fa-caret-square-right" id="show_habr"></i></span>
+        <span><i class="fas fa-caret-square-down" id="show_habr"></i></span>
         <span id='hide_habr'></span>
     </a>
     </h4>
     <hr class="my-4">
 
-    <div id="hidden_habr" style="display: none;">
+    <div id="hidden_habr" style="display: block;">
         {% include 'main/results/habr.html' %}
     </div>
 
     <hr class="my-4">
     <h4 class="mb-4">Github <a href="#" onclick="show('show_github', 'hide_github'); view('hidden_github'); return false">
-        <span><i class="fas fa-caret-square-right" id="show_github"></i></span>
+        <span><i class="fas fa-caret-square-down" id="show_github"></i></span>
         <span id="hide_github"></span>
     </a>
     </h4>
     <hr class="my-4">
-    <div id="hidden_github" style="display: none;">
+    <div id="hidden_github" style="display: block;">
         {% include 'main/results/github.html' %}
     </div>
     <hr class="my-4">

@@ -67,27 +67,27 @@ class MainForm(ModelForm):
             }),
             'site_4': URLInput(attrs={
                 'class': 'form-control',
-                'placeholder':'https://www.example.com'
+                'placeholder': 'https://www.example.com'
             }),
             'site_5': URLInput(attrs={
                 'class': 'form-control',
-                'placeholder':'https://www.example.com'
+                'placeholder': 'https://www.example.com'
             }),
             'site_6': URLInput(attrs={
                 'class': 'form-control',
-                'placeholder':'https://www.example.com'
+                'placeholder': 'https://www.example.com'
             }),
             'site_7': URLInput(attrs={
                 'class': 'form-control',
-                'placeholder':'https://www.example.com'
+                'placeholder': 'https://www.example.com'
             }),
             'site_8': URLInput(attrs={
                 'class': 'form-control',
-                'placeholder':'https://www.example.com'
+                'placeholder': 'https://www.example.com'
             }),
             'site_9': URLInput(attrs={
                 'class': 'form-control',
-                'placeholder':'https://www.example.com'
+                'placeholder': 'https://www.example.com'
             }),
             'site_10': URLInput(attrs={
                 'class': 'form-control',

@@ -1,0 +1,17 @@
+<script>
+    var x = 0;
+
+    function addInput() {
+        if (x < 10) {
+            var form_array = ['{{ form.site_1 }}', '{{ form.site_2 }}', '{{ form.site_3 }}', '{{ form.site_4 }}', '{{ form.site_5 }}', '{{ form.site_6 }}',
+                '{{ form.site_7 }}', '{{ form.site_8 }}', '{{ form.site_9 }}', '{{ form.site_10 }}']
+            var str = form_array[x] + '<br>' + '<div id="input' + (x + 1) + '"></div>';
+            document.getElementById('input' + x).innerHTML = str;
+            document.getElementById('input').innerHTML = 'Сайты';
+
+            x++;
+        } else {
+            alert('Не больше десяти сайтов');
+        }
+    }
+</script>

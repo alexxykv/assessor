@@ -7,7 +7,7 @@ class Main(models.Model):
     lastName = models.CharField('Отчество', max_length=25)
     date_birth = models.DateField('Дата рождения')
     city = models.CharField('Город', max_length=25)
-    phone_number = models.TextField('Телефон', max_length=11)
+    phone_number = models.CharField('Телефон', max_length=11)
     email = models.EmailField('Email')
     site_1 = models.URLField('Сайт 1', max_length=250, blank=True)
     site_2 = models.URLField('Сайт 2', max_length=250, blank=True)
