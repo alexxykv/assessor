@@ -2,7 +2,6 @@ from django.shortcuts import render
 from .forms import MainForm
 from .checkUrl import CheckUrl
 from parsing.habr.user import User
-from parsing.habr.post import Post
 
 
 def index(request):
@@ -39,13 +38,13 @@ def index(request):
 
                 # POSTS
                 habr_posts = User.get_posts(habr_nick)
-                for i in habr_posts:
-                    info = {}
-                    info['title'] = i['title']
-                    info['voitings'] = Post.get(i['id'])['voitings']
-                    info['favs_count'] = Post.get(i['id'])['favs_count']
-                    info['views'] = Post.get(i['id'])['views']
-                    posts.append(info)
+                for post in habr_posts:
+                    posts.append({
+                        'title': post['title'],
+                        'voitings': post['voitings'],
+                        'favs_count': post['favs_count'],
+                        'views': post['views']
+                    })
 
 
 
