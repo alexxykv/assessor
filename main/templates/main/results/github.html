@@ -1,5 +1,14 @@
 <div class="row g-3">
     <div class="col-sm-6">
+        <p class="lead">Nickname: {{ github.nick }}</p>
+        <p class="lead">Repositories: </p>
+        <ul>
+            {% for i in github.user_repos %}
+                <li><a href="{{ i.html_url }}">{{ i.html_url }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-sm-6">
         <canvas id="myChart"></canvas>
     </div>
 </div>

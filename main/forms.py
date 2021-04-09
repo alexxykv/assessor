@@ -47,7 +47,7 @@ class MainForm(ModelForm):
             }),
             'phone_number': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': '+12345678900'
+                'placeholder': '12345678900'
             }),
             'email': EmailInput(attrs={
                 'class': 'form-control',

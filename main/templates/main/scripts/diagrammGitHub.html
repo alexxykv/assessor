@@ -5,7 +5,7 @@
     let lang_array = [];
     let data_array = [];
 </script>
-{% for key, value in info_array.items %}
+{% for key, value in github.data_lang.items %}
     <script>
         lang_array.push('{{ key }}');
         data_array.push(parseInt('{{ value }}', 10));

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .forms import MainForm
-from .checkUrl import CheckUrl
-from parsing.habr.user import User
+from .url_check import CheckUrl
+from .get_info import Data
 
 def getting_sites(form):
     sites = []
@@ -11,55 +11,34 @@ def getting_sites(form):
             sites.append(site)
     return sites
 
-def habr_pars(urls, contributions, posts):
-    habr_nick = urls['habr.com']
-
-    # MAIN INFO
-    habr = User.get(habr_nick)
-    habr_array = [habr['stats']['karma'], habr['stats']['rating'], habr['stats']['followers'],
-                  habr['stats']['following']]
-
-    # CONTRIBUTIONS
-    for i in habr['contribution']:
-        contributions.append([i['url'], i['value']])
-
-    # POSTS
-    habr_posts = User.get_posts(habr_nick)
-    for post in habr_posts:
-        posts.append({
-            'title': post['title'],
-            'voitings': post['voitings'],
-            'favs_count': post['favs_count'],
-            'views': post['views']
-        })
-
-def git_pars(urls, info_array):
-    github = urls['github.com']
-    for i in github.languages():
-        info_array[i[0]] = i[1]
-
 def index(request):
     error = ''
-    info_array = {}   # Содержит языки программирования и проценты использования их | GitHub
-    habr_array = []   # Содержит базовую информацию о человеке | Habr
-    contributions = []   # Вклады | Habr
-    posts = []   # Посты | Habr
+    github = {}
+    habr = {}
     if request.method == "POST":
         form = MainForm(request.POST or None)
         if form.is_valid():
             urls = CheckUrl(getting_sites(form)).check()
             if 'github.com' in urls:
-                git_pars(urls, info_array)
+                user = urls['github.com']
+                github = {
+                    'data_lang': Data.get_git_lang(user),
+                    'nick': user.nickname,
+                    'user_repos': Data.get_git_userRepos(user)
+                }
 
             if 'habr.com' in urls:
-                habr_pars(urls, contributions, posts)
+                nick = urls['habr.com']
+                habr = {
+                    'main': Data.get_habr_main(nick),
+                    'contributions': Data.get_habr_contributions(nick),
+                    'posts': Data.get_habr_posts(nick)
+                }
 
             data = {
                 'form': form,
-                'info_array': info_array,
-                'habr_array': habr_array,
-                'contributions': contributions,
-                'posts': posts
+                'habr': habr,
+                'github': github
             }
             return render(request, 'main/result.html', data)
         else:
