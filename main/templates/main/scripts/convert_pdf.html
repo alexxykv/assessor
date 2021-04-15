@@ -1,0 +1,9 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+<script>
+    function getPDF() {
+        var doc = new jsPDF();
+        doc.addHTML(document.body, function () {
+            doc.save('test.pdf')
+        })
+    }
+</script>

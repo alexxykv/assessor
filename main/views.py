@@ -21,10 +21,16 @@ def index(request):
             urls = CheckUrl(getting_sites(form)).check()
             if 'github.com' in urls:
                 user = urls['github.com']
+                user_repos = Data.get_git_userRepos(user)
                 github = {
                     'data_lang': Data.get_git_lang(user),
                     'nick': user.nickname,
-                    'user_repos': Data.get_git_userRepos(user)
+                    'user_repos': user_repos,
+                    'count_user_repos': len(user_repos),
+                    'count_fork': len(user.forked_repos),
+                    'followers': user.followers(),
+                    'stars': user.stars(),
+                    'profile_url': user.profile_url
                 }
 
             if 'habr.com' in urls:

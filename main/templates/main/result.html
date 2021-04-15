@@ -1,5 +1,4 @@
 {% extends 'main/layout.html' %}
-
 {% block title %}Результаты{% endblock %}
 
 {% block content %}
@@ -9,9 +8,7 @@
     </div>
     <h4 class="mb-4">Habr <a href="#" onclick="show('show_habr', 'hide_habr'); view('hidden_habr'); return false">
         <span><i class="fas fa-caret-square-down" id="show_habr"></i></span>
-        <span id='hide_habr'></span>
-    </a>
-    </h4>
+        <span id='hide_habr'></span></a></h4>
     <hr class="my-4">
 
     <div id="hidden_habr" style="display: block;">
@@ -19,7 +16,8 @@
     </div>
 
     <hr class="my-4">
-    <h4 class="mb-4">Github <a href="#" onclick="show('show_github', 'hide_github'); view('hidden_github'); return false">
+    <h4 class="mb-4">Github <a href="#"
+                               onclick="show('show_github', 'hide_github'); view('hidden_github'); return false">
         <span><i class="fas fa-caret-square-down" id="show_github"></i></span>
         <span id="hide_github"></span>
     </a>
@@ -31,5 +29,6 @@
     <hr class="my-4">
     {% include 'main/scripts/diagrammGitHub.html' %}
     {% include 'main/scripts/show_hide.html' %}
-
+    <button class="btn btn-primary" onclick="getPDF()">PDF</button>
+    {% include 'main/scripts/convert_pdf.html' %}
 {% endblock %}

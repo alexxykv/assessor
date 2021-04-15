@@ -1,23 +1,24 @@
 <div class="row g-3">
     <div class="col-sm-6">
-        <p class="lead">Карма: {{ habr.main.0 }}</p>
-        <p class="lead">Рейтинг: {{ habr.main.1 }}</p>
-        <p class="lead">Фолловеры: {{ habr.main.2 }}</p>
-        <p class="lead">Подписки: {{ habr.main.3 }}</p>
+        <p class="lead">Nickname: <a href="#">{{ habr.main.nickname }}</a></p>
+        <p class="lead">Карма: {{ habr.main.karma }}</p>
+        <p class="lead">Рейтинг: {{ habr.main.rating }}</p>
+        <p class="lead">Фолловеры: {{ habr.main.followers }}</p>
+        <p class="lead">Подписки: {{ habr.main.following }}</p>
         <p class="lead">Вклады:</p>
         <ul>
             {% for i in habr.contributions %}
-                <li><a href="{{ i.0 }}">{{ i.0 }}</a> - {{ i.1 }} </li>
+                <li><a href="{{ i.url }}">{{ i.title }}</a> - {{ i.value }} </li>
             {% endfor %}
         </ul>
     </div>
 
     <div class="col-sm-6">
-        <p class="lead">Место работы: {{ habr.main.4}}</p>
-        <p class="lead">Посты: </p>
+        <p class="lead">Место работы: {{ habr.main.work_name}}</p>
+        <p class="lead">Статьи: </p>
         <ul>
             {% for i in habr.posts %}
-                <li>{{ i.title }}</li>
+                <li><a href="#">{{ i.title }}</a></li>
                 <h3><i class="fas fa-arrows-alt-v"></i> {{ i.voitings }} <i
                         class="fas fa-bookmark"></i> {{ i.favs_count }} <i class="far fa-eye"></i> {{ i.views }}</h3>
             {% endfor %}

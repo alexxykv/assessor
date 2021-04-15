@@ -1,10 +1,14 @@
 <div class="row g-3">
     <div class="col-sm-6">
-        <p class="lead">Nickname: {{ github.nick }}</p>
-        <p class="lead">Repositories: </p>
+        <p class="lead">Nickname: <a href="{{ github.profile_url }}">{{ github.nick }}</a></p>
+        <p class="lead">Фолловеры: {{ github.followers }}</p>
+        <p class="lead">Звезды в собственных репозиториях: {{ github.stars }}</p>
+        <p class="lead">Кол. форков чужих репозиториев: {{ github.count_fork }}</p>
+        <p class="lead">Кол. собственных репозиториев: {{ github.count_user_repos }}</p>
+        <p class="lead">Собственные репозитории: </p>
         <ul>
             {% for i in github.user_repos %}
-                <li><a href="{{ i.html_url }}">{{ i.html_url }}</a></li>
+                <li><a href="{{ i.html_url }}">{{ i.name }}</a></li>
             {% endfor %}
         </ul>
     </div>

@@ -21,5 +21,6 @@ class CheckUrl:
         return gitpars.GithubParser(self.url)
 
     def habr(self):
-        nick = self.url.split('/')[-2]
+        url = (self.url + '/').replace('//', '/')
+        nick = url.split('/')[-2]
         return nick

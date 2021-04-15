@@ -5,7 +5,6 @@ from .urls import URL
 
 class Post:
     def __init__(self, post_id):
-
         self.url = URL.post(post_id)
         text = get_text(self.url)
         self.post_id = post_id

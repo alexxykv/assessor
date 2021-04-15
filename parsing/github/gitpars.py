@@ -8,6 +8,7 @@ from parsing.github import request_construct as rc
 class GithubParser:
 
     def __init__(self, url):
+        self.profile_url = url
         self.nickname = url.replace('\\', '/').split('/')[-1]
         self.main_page = json.loads(rc.auth_get(f"https://api.github.com/users/{self.nickname}").text)
         self.all_repos = []
@@ -16,7 +17,7 @@ class GithubParser:
         self.fetch_repos()
 
     def stars(self):
-        return sum(list(map(lambda x: x['stargazers_count'], self.all_repos)))
+        return sum(list(map(lambda x: x['stargazers_count'], self.user_repos)))
 
     def followers(self):
         return self.main_page['followers']
@@ -41,6 +42,9 @@ class GithubParser:
             else:
                 res[l] = percents
         return res
+
+    def photo(self):
+        return self.main_page["avatar_url"]
 
     def organizations(self):
         js = json.loads(rc.auth_get(f"https://api.github.com/users/{self.nickname}/orgs").text)

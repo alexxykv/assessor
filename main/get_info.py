@@ -4,14 +4,27 @@ class Data:
 
     def get_habr_main(nick):
         habr = User.get(nick)
-        return [habr['stats']['karma'], habr['stats']['rating'],
-                habr['stats']['followers'], habr['stats']['following'], habr['work']['name']]
+        return {
+            'karma': habr['stats']['karma'],
+            'rating': habr['stats']['rating'],
+            'followers': habr['stats']['followers'],
+            'following': habr['stats']['following'],
+            'work_name': habr['work']['name'],
+            'nickname': habr['nickname']
+
+        }
 
     def get_habr_contributions(nick):
         habr = User.get(nick)
         contributions = []
         for i in habr['contribution']:
-            contributions.append([i['url'], i['value']])
+            contributions.append(
+                {
+                    'title': i['name'],
+                    'url': i['url'],
+                    'value': i['value']
+                }
+            )
         return contributions
 
     def get_habr_posts(nick):
