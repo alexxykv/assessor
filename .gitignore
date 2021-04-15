@@ -46,3 +46,6 @@ venv.bak/
 
 # Visual Studio Code
 .vscode/
+
+#Gitpars
+api_token.py
