@@ -1,0 +1,61 @@
+<script>
+    function PDF() {
+        var docInfo = {
+            info: {
+                title: 'Результаты поиска',
+                author: 'Maxim',
+                subject: 'Theme',
+                keywords: 'Ключевые слова'
+            },
+
+            pageSize: 'A4',
+            pageOrientation: 'portrait',//'portrait'
+            pageMargins: [50, 50, 30, 60],
+
+            content: [
+                {
+                    text: 'Результаты',
+                    fontSize: 30,
+                    alignment: 'center'
+                },
+
+                {
+                    text: 'Habr:',
+                    fontSize: 20,
+                    alignment: 'center',
+                    style: 'header'
+                    //pageBreak:'before'
+                },
+                {
+                    text: "Nickname: {{ habr.main.nickname }}\n" +
+                        'Карма: {{ habr.main.karma }}\n' +
+                        'Рейтинг: {{ habr.main.rating }}\n' +
+                        'Фолловеры: {{ habr.main.followers }}\n' +
+                        'Подписки на людей: {{ habr.main.following }}\n' +
+                        'Вклады:\n'
+                },
+                {
+                    ul: [
+                        {% for i in habr.contributions %}
+                            "{{ i.title }} - {{ i.value }}",
+                        {% endfor %}
+                    ]
+                },
+                {
+                    text: "Место работы: {{ habr.main.work_name}}\n" +
+                        "Среднее по статьям: {{ habr.avgs.voitings }}, {{ habr.avgs.favs_count }}, {{ habr.avgs.views }}\n" +
+                        "Статьи:\n"
+                },
+                {
+                    ul: [
+                        {% for i in habr.posts %}
+                            "{{ i.title }}\n" + "{{ i.voitings }} {{ i.favs_count }} {{ i.views }}" ,
+                        {% endfor %}
+                    ]
+                }
+
+                ]
+        }
+        pdfMake.createPdf(docInfo).download('name.pdf');
+    }
+</script>
