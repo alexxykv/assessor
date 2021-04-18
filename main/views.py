@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .forms import MainForm
 from .url_check import CheckUrl
 from .get_info import Data
+from vk_finder.find_info import VkFinder
 
 def getting_sites(form):
     sites = []
@@ -18,6 +19,16 @@ def index(request):
     if request.method == "POST":
         form = MainForm(request.POST or None)
         if form.is_valid():
+            info = {
+                'first_name': form.cleaned_data.get("firstName"),
+                'last_name': form.cleaned_data.get("middleName"),
+                'birth_day': form.cleaned_data.get("date_birth").timetuple()[2],
+                'birth_month': form.cleaned_data.get("date_birth").timetuple()[1],
+                'birth_year': form.cleaned_data.get("date_birth").timetuple()[0],
+                'city': form.cleaned_data.get("city")
+            }
+            #users = VkFinder(info).get_users()      # Поиск людей по вк, возвращает список id
+
             urls = CheckUrl(getting_sites(form)).check()
             if 'github.com' in urls:
                 user = urls['github.com']
@@ -28,9 +39,9 @@ def index(request):
                     'user_repos': user_repos,
                     'count_user_repos': len(user_repos),
                     'count_fork': len(user.forked_repos),
-                    'followers': user.followers(),
-                    'stars': user.stars(),
-                    'profile_url': user.profile_url
+                    'followers': user.followers,
+                    'stars': user.stars,
+                    'profile_url': user.url
                 }
 
             if 'habr.com' in urls:
@@ -38,7 +49,8 @@ def index(request):
                 habr = {
                     'main': Data.get_habr_main(nick),
                     'contributions': Data.get_habr_contributions(nick),
-                    'posts': Data.get_habr_posts(nick)
+                    'posts': Data.get_habr_posts(nick),
+                    'avgs': Data.get_habr_avg(nick)
                 }
 
             data = {
@@ -57,3 +69,4 @@ def index(request):
         'error': error
     }
     return render(request, 'main/index.html', data)
+

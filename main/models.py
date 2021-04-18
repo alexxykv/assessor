@@ -2,9 +2,9 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 class Main(models.Model):
-    firstName = models.CharField('Имя', max_length=25)
-    middleName = models.CharField('Фамилия', max_length=25)
-    lastName = models.CharField('Отчество', max_length=25)
+    firstName = models.CharField('Имя', max_length=25)   # Имя
+    middleName = models.CharField('Фамилия', max_length=25)   # Фамилия
+    lastName = models.CharField('Отчество', max_length=25)   # Отчество
     date_birth = models.DateField('Дата рождения')
     city = models.CharField('Город', max_length=25)
     phone_number = models.CharField('Телефон', max_length=11)

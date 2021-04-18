@@ -29,6 +29,9 @@
     <hr class="my-4">
     {% include 'main/scripts/diagrammGitHub.html' %}
     {% include 'main/scripts/show_hide.html' %}
-    <button class="btn btn-primary" onclick="getPDF()">PDF</button>
-    {% include 'main/scripts/convert_pdf.html' %}
+
+    <button class="btn btn-primary" onclick="PDF()">PDF</button>
+
+    {% include 'main/scripts/pdf.html' %}
+
 {% endblock %}

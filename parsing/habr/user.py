@@ -132,11 +132,12 @@ class User:
         favs_count = fetch(RegexUser.POST_FAVS_COUNT, text)
         for i in range(len(posts)):
             posts[i] = {
+                'url': URL.post(posts[i][1]),
                 'type': posts[i][0],
                 'id': posts[i][1],
                 'title': posts[i][2],
                 'voitings': voitings[i],
-                'views': views[i],
+                'views': views[i].replace(',', '.'),
                 'favs_count': favs_count[i]
             }
         return posts

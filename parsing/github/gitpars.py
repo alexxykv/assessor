@@ -3,26 +3,30 @@ import json
 import math
 from parsing.github import request_construct as rc
 
-
-
 class GithubParser:
 
     def __init__(self, url):
-        self.profile_url = url
+        self.url = url
         self.nickname = url.replace('\\', '/').split('/')[-1]
         self.main_page = json.loads(rc.auth_get(f"https://api.github.com/users/{self.nickname}").text)
         self.all_repos = []
         self.user_repos = []
         self.forked_repos = []
-        self.fetch_repos()
+        self.__fetch_repos()
+        self.stars = self.__stars()
+        self.followers = self.__followers()
+        self.languages = self.__languages()
+        self.company = self.main_page['company']
+        self.photo = self.main_page["avatar_url"]
+        self.name = self.main_page["name"]
 
-    def stars(self):
+    def __stars(self):
         return sum(list(map(lambda x: x['stargazers_count'], self.user_repos)))
 
-    def followers(self):
+    def __followers(self):
         return self.main_page['followers']
 
-    def languages(self):
+    def __languages(self):
         languages = {}
         n = 0
         for rep in self.user_repos:
@@ -43,14 +47,11 @@ class GithubParser:
                 res[l] = percents
         return res
 
-    def photo(self):
-        return self.main_page["avatar_url"]
-
-    def organizations(self):
+    def __organizations(self):
         js = json.loads(rc.auth_get(f"https://api.github.com/users/{self.nickname}/orgs").text)
         return list(map(lambda x: x['login'], js))
 
-    def fetch_repos(self):
+    def __fetch_repos(self):
         i = 1
         max_pages = math.ceil(self.main_page["public_repos"] / 100)
         while i <= max_pages:

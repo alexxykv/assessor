@@ -49,3 +49,6 @@ venv.bak/
 
 #Gitpars
 api_token.py
+
+#VkFinder
+access_token.py
