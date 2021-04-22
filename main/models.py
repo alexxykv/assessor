@@ -1,5 +1,4 @@
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 
 class Main(models.Model):
     firstName = models.CharField('Имя', max_length=25)   # Имя

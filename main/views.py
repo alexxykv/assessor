@@ -27,7 +27,8 @@ def index(request):
                 'birth_year': form.cleaned_data.get("date_birth").timetuple()[0],
                 'city': form.cleaned_data.get("city")
             }
-            #users = VkFinder(info).get_users()      # Поиск людей по вк, возвращает список id
+            # users = VkFinder(info).get_users()      # Поиск людей по вк, возвращает список id
+            # print(users)
 
             urls = CheckUrl(getting_sites(form)).check()
             if 'github.com' in urls:
