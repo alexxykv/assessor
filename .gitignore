@@ -27,13 +27,13 @@ MANIFEST
 
 # Django stuff:
 *.log
-settings.py
 db.sqlite3
 db.sqlite3-journal
 
 # Environments
 .env
 .venv
+.env.dev
 env/
 venv/
 ENV/
@@ -45,9 +45,3 @@ venv.bak/
 
 # Visual Studio Code
 .vscode/
-
-#Gitpars
-api_token.py
-
-#VkFinder
-access_token.py
