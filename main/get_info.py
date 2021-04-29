@@ -9,7 +9,7 @@ class Data:
             'rating': habr['stats']['rating'],
             'followers': habr['stats']['followers'],
             'following': habr['stats']['following'],
-            'work_name': habr['work']['name'],
+            'work_name': habr['work']['name'] if habr['work'] else '',
             'nickname': habr['nickname'],
             'url': habr['url']
 
