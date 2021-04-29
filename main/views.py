@@ -4,6 +4,7 @@ from .url_check import CheckUrl
 from .get_info import Data
 from vk_finder.find_info import VkFinder
 
+
 def getting_sites(form):
     sites = []
     for i in range(1, 11):
@@ -11,6 +12,7 @@ def getting_sites(form):
         if len(site) != 0:
             sites.append(site)
     return sites
+
 
 def index(request):
     error = ''
@@ -22,14 +24,11 @@ def index(request):
             info = {
                 'first_name': form.cleaned_data.get("firstName"),
                 'last_name': form.cleaned_data.get("middleName"),
-                'birth_day': form.cleaned_data.get("date_birth").timetuple()[2],
-                'birth_month': form.cleaned_data.get("date_birth").timetuple()[1],
-                'birth_year': form.cleaned_data.get("date_birth").timetuple()[0],
+                'date_birth': form.cleaned_data.get("date_birth"),
                 'city': form.cleaned_data.get("city")
             }
-            # users = VkFinder(info).get_users()      # Поиск людей по вк, возвращает список id
-            # print(users)
-
+            user_vk = VkFinder(info)  # Поиск людей по вк, возвращает список id
+            print(user_vk.get_information())
             urls = CheckUrl(getting_sites(form)).check()
             if 'github.com' in urls:
                 user = urls['github.com']
@@ -70,4 +69,3 @@ def index(request):
         'error': error
     }
     return render(request, 'main/index.html', data)
-

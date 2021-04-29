@@ -3,11 +3,11 @@ from django.db import models
 class Main(models.Model):
     firstName = models.CharField('Имя', max_length=25)   # Имя
     middleName = models.CharField('Фамилия', max_length=25)   # Фамилия
-    lastName = models.CharField('Отчество', max_length=25)   # Отчество
-    date_birth = models.DateField('Дата рождения')
-    city = models.CharField('Город', max_length=25)
-    phone_number = models.CharField('Телефон', max_length=11)
-    email = models.EmailField('Email')
+    lastName = models.CharField('Отчество', max_length=25, blank=True)   # Отчество
+    date_birth = models.DateField('Дата рождения', blank=True)
+    city = models.CharField('Город', max_length=25, blank=True)
+    phone_number = models.CharField('Телефон', max_length=11, blank=True)
+    email = models.EmailField('Email', blank=True)
     site_1 = models.URLField('Сайт 1', max_length=250, blank=True)
     site_2 = models.URLField('Сайт 2', max_length=250, blank=True)
     site_3 = models.URLField('Сайт 3', max_length=250, blank=True)
