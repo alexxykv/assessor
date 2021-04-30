@@ -1,6 +1,8 @@
 import requests
 import json
 import math
+import datetime
+import bs4
 from parsing.github import request_construct as rc
 
 class GithubParser:
@@ -19,6 +21,9 @@ class GithubParser:
         self.company = self.main_page['company']
         self.photo = self.main_page["avatar_url"]
         self.name = self.main_page["name"]
+        self.hireable = True if self.main_page["hireable"] else False
+        self.bio = self.main_page["bio"]
+        self.created_at = self.main_page["created_at"]
 
     def __stars(self):
         return sum(list(map(lambda x: x['stargazers_count'], self.user_repos)))
@@ -30,7 +35,7 @@ class GithubParser:
         languages = {}
         n = 0
         for rep in self.user_repos:
-            for l, c in json.loads(requests.get(rep["languages_url"]).text).items():
+            for l, c in json.loads(rc.auth_get(rep["languages_url"]).text).items():
                 if l not in languages.keys():
                     languages[l] = c
                 else:
@@ -61,7 +66,17 @@ class GithubParser:
             self.all_repos += repos
             self.user_repos += list(filter(lambda x: not x['fork'], repos))
             self.forked_repos += list(filter(lambda x: x['fork'], repos))
-            i+=1
+            i += 1
 
-    def limit(self):
-        return rc.auth_get("https://api.github.com/rate_limit").text
+    def fetch_contributions(self, n):
+        n = min([datetime.datetime.now().year - int(self.created_at[:4]), n])
+        year = datetime.datetime.now().year
+        contributions = []
+        for i in range(n):
+            page = requests.get(f"https://github.com/{self.nickname}?tab=overview&from={year - i}-12-01&to={year - i}-12-31").text
+            page = bs4.BeautifulSoup(page, features="html.parser")
+            text = page.find("h2", {'class': "f4 text-normal mb-2"}).text
+            text = text.replace(',', '')
+            num = list(filter(lambda x: x.isdigit(), text.split(' ')))[0]
+            contributions.append(int(num))
+        return contributions

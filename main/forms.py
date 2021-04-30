@@ -1,5 +1,6 @@
 from .models import Main
-from django.forms import ModelForm, TextInput, DateInput, EmailInput, URLInput
+from django.forms import ModelForm, TextInput, DateInput, EmailInput, URLInput, RegexField, CharField
+
 
 class MainForm(ModelForm):
     class Meta:
@@ -9,8 +10,8 @@ class MainForm(ModelForm):
             'middleName',
             'lastName',
             'date_birth',
-            'city',
             'phone_number',
+            'city',
             'email',
             'site_1',
             'site_2',
@@ -39,19 +40,20 @@ class MainForm(ModelForm):
             }),
             'date_birth': DateInput(attrs={
                 'class': 'form-control',
-                'placeholder': '01.01.1999'
+                'placeholder': '01.01.1999',
+                'type': 'date'
             }),
             'city': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Город'
+                'placeholder': 'Москва'
             }),
             'phone_number': TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': '12345678900'
+                'class': 'form-control mask-phone',
+                'placeholder': '+7 (123) 456-23-12'
             }),
             'email': EmailInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Email'
+                'placeholder': 'example@domen.com'
             }),
             'site_1': URLInput(attrs={
                 'class': 'form-control',

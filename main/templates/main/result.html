@@ -6,28 +6,64 @@
         <i class="fas fa-poll"></i>
         <h2>Результаты</h2>
     </div>
-    <h4 class="mb-4">Habr <a href="#" onclick="show('show_habr', 'hide_habr'); view('hidden_habr'); return false">
-        <span><i class="fas fa-caret-square-down" id="show_habr"></i></span>
-        <span id='hide_habr'></span></a></h4>
+    <!-- MAIN INFO -->
+    <h4><a href="{% url 'vk_result' %}" style="text-decoration: none">VK</a></h4>
     <hr class="my-4">
-
-    <div id="hidden_habr" style="display: block;">
-        {% include 'main/results/habr.html' %}
+    <p><h4 style="text-align: center">Оценка: <span id="random"></span></h4></p>
+    <script>
+        let rnd = Math.floor(Math.random() * 100) + '%';
+        document.getElementById('random').innerHTML = rnd;
+    </script>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col">
+            <h5>Имя: <span class="lead">{{ info.first_name }}</span></h5>
+            <h5>Фамилия: <span class="lead">{{ info.last_name }}</span></h5>
+            <h5>Дата рождения: <span class="lead">{% if info.date_birth %}{{ info.date_birth }}{% else %}
+                Неизвестно{% endif %}</span></h5>
+            <h5>Город: <span class="lead">{% if info.city %}{{ info.city }}{% else %}
+                Неизвестно{% endif %}</span></h5>
+        </div>
+        <div class="col">
+            <img src="{{ photo }}" alt="photo" style="width: 200px; height: 200px;">
+        </div>
+        <div class="col"></div>
     </div>
+    <hr class="my-4">
+    <!-- END MAIN INFO -->
 
+    <!-- HABR -->
+    {% if habr != None %}
+        <h4 class="mb-4">Habr <a href="#" onclick="show('show_habr', 'hide_habr'); view('hidden_habr'); return false">
+            <span><i class="fas fa-caret-square-down" id="show_habr"></i></span>
+            <span id='hide_habr'></span></a></h4>
+        <hr class="my-4">
+
+        <div id="hidden_habr" style="display: block;">
+            {% include 'main/results/habr.html' %}
+        </div>
+
+        <hr class="my-4">
+    {% endif %}
+    <!-- END HABR -->
+
+    <!-- GITHUB -->
+    {% if github != None %}
+        <h4 class="mb-4">Github <a href="#"
+                                   onclick="show('show_github', 'hide_github'); view('hidden_github'); return false">
+            <span><i class="fas fa-caret-square-down" id="show_github"></i></span>
+            <span id="hide_github"></span>
+        </a>
+        </h4>
+        <hr class="my-4">
+        <div id="hidden_github" style="display: block;">
+            {% include 'main/results/github.html' %}
+        </div>
+        {% include 'main/scripts/diagrammGitHub.html' %}
+    {% endif %}
     <hr class="my-4">
-    <h4 class="mb-4">Github <a href="#"
-                               onclick="show('show_github', 'hide_github'); view('hidden_github'); return false">
-        <span><i class="fas fa-caret-square-down" id="show_github"></i></span>
-        <span id="hide_github"></span>
-    </a>
-    </h4>
-    <hr class="my-4">
-    <div id="hidden_github" style="display: block;">
-        {% include 'main/results/github.html' %}
-    </div>
-    <hr class="my-4">
-    {% include 'main/scripts/diagrammGitHub.html' %}
+    <!-- END GITHUB -->
+
     {% include 'main/scripts/show_hide.html' %}
 
     <button class="btn btn-primary" onclick="PDF()">PDF</button>

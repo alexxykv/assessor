@@ -1,0 +1,26 @@
+{% extends 'main/layout.html' %}
+{% block title %}Вк результаты{% endblock %}
+
+{% block content %}
+    <div class="py-5 text-center">
+        <i class="fas fa-poll"></i>
+        <h2>Информация по ВК</h2>
+    </div>
+    <div class="row g-3">
+        {% for user in vk_ids %}
+            <div class="col-sm-6">
+                <p class="lead">ID: <a href="https://vk.com/id{{ user.id }}">{{ user.id }}</a></p>
+                <p class="lead">Nickname: {{ user.screen_name }}</p>
+                <p class="lead">Имя: {{ user.first_name }}</p>
+                <p class="lead">Фамилия: {{ user.last_name }}</p>
+                <p class="lead">Кол. друзей: {{ user.counters.friends }}</p>
+                <p class="lead">Количество подписчиков: {{ user.counters.followers }}</p>
+                <p class="lead">Сайт: <a href="{{ user.site }}">{{ user.site }}</a></p>
+            </div>
+            <div class="col-sm-6">
+                <img src="{{ user.photo_200 }}" alt="Фото профиля">
+            </div>
+            <hr class="my-4">
+        {% endfor %}
+    </div>
+{% endblock %}

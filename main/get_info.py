@@ -1,4 +1,5 @@
 from parsing.habr.user import User
+from vk_finder.find_info import VkFinder
 
 class Data:
 
@@ -70,3 +71,6 @@ class Data:
 
     def get_git_userRepos(user):
         return user.user_repos
+
+    def get_vk(info):
+        return VkFinder(info).get()

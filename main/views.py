@@ -1,9 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import MainForm
 from .url_check import CheckUrl
 from .get_info import Data
-from vk_finder.find_info import VkFinder
 
+# Глобальные переменные
+form = None
+info = {}   # Общая информация о человеке
+user_vk = None   # Информация из ВК
 
 def getting_sites(form):
     sites = []
@@ -15,48 +18,33 @@ def getting_sites(form):
 
 
 def index(request):
+    global form, info, user_vk
     error = ''
     github = {}
     habr = {}
     if request.method == "POST":
         form = MainForm(request.POST or None)
         if form.is_valid():
+            urls = CheckUrl(getting_sites(form)).check()
+
             info = {
                 'first_name': form.cleaned_data.get("firstName"),
                 'last_name': form.cleaned_data.get("middleName"),
                 'date_birth': form.cleaned_data.get("date_birth"),
                 'city': form.cleaned_data.get("city")
             }
-            user_vk = VkFinder(info)  # Поиск людей по вк, возвращает список id
-            print(user_vk.get_information())
-            urls = CheckUrl(getting_sites(form)).check()
-            if 'github.com' in urls:
-                user = urls['github.com']
-                user_repos = Data.get_git_userRepos(user)
-                github = {
-                    'data_lang': Data.get_git_lang(user),
-                    'nick': user.nickname,
-                    'user_repos': user_repos,
-                    'count_user_repos': len(user_repos),
-                    'count_fork': len(user.forked_repos),
-                    'followers': user.followers,
-                    'stars': user.stars,
-                    'profile_url': user.url
-                }
 
-            if 'habr.com' in urls:
-                nick = urls['habr.com']
-                habr = {
-                    'main': Data.get_habr_main(nick),
-                    'contributions': Data.get_habr_contributions(nick),
-                    'posts': Data.get_habr_posts(nick),
-                    'avgs': Data.get_habr_avg(nick)
-                }
+            user_vk = Data.get_vk(info)
+
+            github = add_github(github, urls)
+            habr = add_habr(habr, urls)
 
             data = {
                 'form': form,
                 'habr': habr,
-                'github': github
+                'github': github,
+                'info': info,
+                'photo': user_vk[0]['photo_200'] if user_vk else '/static/main/img/anon.png'
             }
             return render(request, 'main/result.html', data)
         else:
@@ -69,3 +57,53 @@ def index(request):
         'error': error
     }
     return render(request, 'main/index.html', data)
+
+
+def vk_result(request):
+    global form, info, user_vk
+    if form != None:
+        data = {
+            'form': form,
+            'vk_ids': user_vk
+        }
+        return render(request, 'main/vk_result.html', data)
+
+    return redirect('/')
+
+
+def add_habr(habr, urls):
+    if 'habr.com' in urls:
+        nick = urls['habr.com']
+        habr = {
+            'main': Data.get_habr_main(nick),
+            'contributions': Data.get_habr_contributions(nick),
+            'posts': Data.get_habr_posts(nick),
+            'avgs': Data.get_habr_avg(nick)
+        }
+    else:
+        habr = None
+    return habr
+
+
+def add_github(github, urls):
+    if 'github.com' in urls:
+        user = urls['github.com']
+        user_repos = Data.get_git_userRepos(user)
+        github = {
+            'data_lang': Data.get_git_lang(user),
+            'nick': user.nickname,
+            'user_repos': user_repos,
+            'count_user_repos': len(user_repos),
+            'count_fork': len(user.forked_repos),
+            'followers': user.followers,
+            'stars': user.stars,
+            'profile_url': user.url,
+            'contributions_year': user.fetch_contributions(3),
+            'photo': user.photo
+        }
+    else:
+        github = None
+    return github
+
+
+
