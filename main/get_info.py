@@ -1,5 +1,5 @@
 from parsing.habr.user import User
-from vk_finder.find_info import VkFinder
+from vk_finder import finder
 
 class Data:
 
@@ -73,4 +73,4 @@ class Data:
         return user.user_repos
 
     def get_vk(info):
-        return VkFinder(info).get()
+        return finder.find(info)

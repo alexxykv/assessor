@@ -1,4 +1,8 @@
-class UserInfo:
+from .database import Database
+
+
+class UserData:
+    
     def __init__(self, data):
         self.first_name = data['first_name']
         self.last_name = data['last_name']
@@ -11,7 +15,7 @@ class UserInfo:
 
         city = data['city']
         if city:
-            self.city = city
+            self.city = Database.get_city_id(city)
         
     def get_fullname(self):
         return f'{self.first_name} {self.last_name}'
