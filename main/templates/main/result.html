@@ -7,7 +7,7 @@
         <h2>Результаты</h2>
     </div>
     <!-- MAIN INFO -->
-    <h4><a href="{% url 'vk_result' %}" style="text-decoration: none">VK</a></h4>
+    <h4><a href="{% url 'vk' %}" style="text-decoration: none">VK</a></h4>
     <hr class="my-4">
     <p><h4 style="text-align: center">Оценка: <span id="random"></span></h4></p>
     <script>
@@ -46,7 +46,6 @@
         <hr class="my-4">
     {% endif %}
     <!-- END HABR -->
-
     <!-- GITHUB -->
     {% if github != None %}
         <h4 class="mb-4">Github <a href="#"
@@ -66,8 +65,10 @@
 
     {% include 'main/scripts/show_hide.html' %}
 
-    <button class="btn btn-primary" onclick="PDF()">PDF</button>
-
-    {% include 'main/scripts/pdf.html' %}
+    <button class="btn btn-primary" onclick="PDF()" id="pdf">PDF</button>
+    <div class="spinner-border spinner-border-sm" role="status" style="display: none;">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <span id="download"></span>
 
 {% endblock %}

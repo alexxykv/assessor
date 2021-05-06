@@ -7,7 +7,6 @@
         <i class="fas fa-home fa-6"></i>
         <h2>Главная страница</h2>
         <p class="lead">Здесь вы можете ввести данные о человеке и получить его оценку.</p>
-        <p class="lead">{{ error }}</p>
     </div>
     <div>
         <h4 class="mb-3">Данные о человеке</h4>
@@ -53,7 +52,7 @@
                 </button>
                 {% include 'main/scripts/add_site.html' %}
                 <hr class="my-4">
-                <button class="w-100 btn btn-primary btn-lg" type="submit">Отправить</button>
+                <button class="w-100 btn btn-primary btn-lg" type="submit" formaction="{% url 'result' %}">Отправить</button>
             </div>
         </form>
     </div>

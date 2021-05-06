@@ -11,14 +11,13 @@
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="{% static 'main/css/main.css' %}">
-    <script type="text/javascript" src={% static "main/js/pdfmake-master/build/pdfmake.min.js" %}></script>
-    <script type="text/javascript" src={% static "main/js/pdfmake-master/build/vfs_fonts.js" %}></script>
     <script
             src="https://code.jquery.com/jquery-3.6.0.js"
             integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
             crossorigin="anonymous"></script>
-    <script type="text/javascript" src={% static "main/js/maskedinput-master/jquery.maskedinput.js" %}></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/convertapi-js@1.0.6/lib/convertapi.min.js"></script>
+    <script src="{% static 'main/js/convert_to_pdf.js' %}"></script>
 </head>
 <body class="bg-light">
 <div class="container">

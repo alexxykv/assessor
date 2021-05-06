@@ -3,71 +3,54 @@ from .forms import MainForm
 from .url_check import CheckUrl
 from .get_info import Data
 
-# Глобальные переменные
-form = None
-info = {}   # Общая информация о человеке
-user_vk = None   # Информация из ВК
-
-def getting_sites(form):
-    sites = []
-    for i in range(1, 11):
-        site = form.cleaned_data.get(f"site_{i}")
-        if len(site) != 0:
-            sites.append(site)
-    return sites
-
 
 def index(request):
-    global form, info, user_vk
-    error = ''
+    return render(request, 'main/index.html', {'form': MainForm()})
+
+
+def result(request):
     github = {}
     habr = {}
     if request.method == "POST":
         form = MainForm(request.POST or None)
         if form.is_valid():
+            request.session['result'] = request.POST
             urls = CheckUrl(getting_sites(form)).check()
-
             info = {
                 'first_name': form.cleaned_data.get("firstName"),
                 'last_name': form.cleaned_data.get("middleName"),
                 'date_birth': form.cleaned_data.get("date_birth"),
                 'city': form.cleaned_data.get("city")
             }
-
             user_vk = Data.get_vk(info)
-
             github = add_github(github, urls)
             habr = add_habr(habr, urls)
-
             data = {
                 'form': form,
                 'habr': habr,
                 'github': github,
                 'info': info,
-                'photo': user_vk[0]['photo_200'] if user_vk else '/static/main/img/anon.png'
+                'photo': user_vk[0]['photo_200'] if user_vk else '/static/main/img/anon.png',
+                'vk_ids': user_vk
             }
             return render(request, 'main/result.html', data)
-        else:
-            error = 'Форма была неверной'
-
-    form = MainForm()
-
-    data = {
-        'form': form,
-        'error': error
-    }
-    return render(request, 'main/index.html', data)
+    return redirect('/')
 
 
-def vk_result(request):
-    global form, info, user_vk
-    if form != None:
+def vk(request):
+    data = request.session.get('result')
+    if data:
+        info = {
+            'first_name': data["firstName"],
+                    'last_name': data["middleName"],
+                    'date_birth': data["date_birth"],
+                    'city': data["city"]
+        }
+        user_vk = Data.get_vk(info)
         data = {
-            'form': form,
             'vk_ids': user_vk
         }
         return render(request, 'main/vk_result.html', data)
-
     return redirect('/')
 
 
@@ -106,4 +89,10 @@ def add_github(github, urls):
     return github
 
 
-
+def getting_sites(form):
+    sites = []
+    for i in range(1, 11):
+        site = form.cleaned_data.get(f"site_{i}")
+        if len(site) != 0:
+            sites.append(site)
+    return sites
