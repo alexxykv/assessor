@@ -2,8 +2,8 @@ from django.db import models
 
 class Main(models.Model):
     firstName = models.CharField('Имя', max_length=25)   # Имя
-    middleName = models.CharField('Фамилия', max_length=25)   # Фамилия
-    lastName = models.CharField('Отчество', max_length=25, blank=True)   # Отчество
+    lastName = models.CharField('Фамилия', max_length=25)   # Фамилия
+    patronymic = models.CharField('Отчество', max_length=25, blank=True)   # Отчество
     date_birth = models.DateField('Дата рождения', blank=True)
     city = models.CharField('Город', max_length=25, blank=True)
     phone_number = models.CharField('Телефон', max_length=20, blank=True)
