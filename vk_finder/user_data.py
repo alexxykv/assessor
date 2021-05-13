@@ -2,8 +2,12 @@ from .database import Database
 
 
 class UserData:
-    
-    def __init__(self, data):
+
+    def __init__(self, data: dict):
+        """ Initialization \n
+        Keyword Arguments: \n
+        `data` -- User data received from the form on the site
+        """
         self.first_name = data['first_name']
         self.last_name = data['last_name']
 

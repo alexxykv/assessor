@@ -17,11 +17,6 @@ class Users:
         return user_ids
 
     @staticmethod
-    def get(user_ids):
-        users = vk.users.get(user_ids=user_ids, fields=[
-            'bdate', 'city', 'connections',
-            'screen_name', 'site', 'universities',
-            'photo_200', 'counters'
-        ])
-
+    def get(user_ids, fields):
+        users = vk.users.get(user_ids=user_ids, fields=fields)
         return users
