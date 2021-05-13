@@ -2,11 +2,9 @@ from django.shortcuts import render, redirect
 from .forms import MainForm
 from .url_check import CheckUrl
 from .get_info import Data
-from django.contrib.auth import logout as auth_logout
 
 
 def index(request):
-    request.session.clear()
     return render(request, 'main/index.html', {'form': MainForm()})
 
 
@@ -16,7 +14,6 @@ def result(request):
     if request.method == "POST":
         form = MainForm(request.POST or None)
         if form.is_valid():
-            request.session['result'] = request.POST
             urls = CheckUrl(getting_sites(form)).check()
             info = {
                 'first_name': form.cleaned_data.get("firstName"),
@@ -35,28 +32,6 @@ def result(request):
                 'photo': user_vk[0]['photo_200'] if user_vk else '/static/main/img/anon.png'
             }
             return render(request, 'main/result.html', data)
-    return redirect('/')
-
-
-def vk(request):
-    if 'result' in request.session:
-        data = request.session.get('result')
-        info = {
-            'first_name': data["firstName"],
-            'last_name': data["middleName"],
-            'date_birth': data["date_birth"],
-            'city': data["city"]
-        }
-        user_vk = Data.get_vk(info)
-        data = {
-            'vk_ids': user_vk
-        }
-        return render(request, 'main/vk_result.html', data)
-    return redirect('/')
-
-
-def logout(request):
-    auth_logout(request)
     return redirect('/')
 
 
