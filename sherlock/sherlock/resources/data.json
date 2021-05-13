@@ -1,0 +1,16 @@
+{
+  "Chess": {
+    "errorType": "status_code",
+    "url": "https://www.chess.com/member/{}",
+    "urlMain": "https://www.chess.com/",
+    "username_claimed": "blue",
+    "username_unclaimed": "noonewouldeverusethis7"
+  },
+  "VK": {
+    "errorType": "response_url",
+    "url": "https://vk.com/{}",
+    "urlMain": "https://vk.com/",
+    "username_claimed": "smith",
+    "username_unclaimed": "blah62831"
+  }
+}
