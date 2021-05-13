@@ -62,15 +62,10 @@
     <hr class="my-4">
     <!-- END GITHUB -->
     {% include 'main/scripts/show_hide.html' %}
-    <button class="btn btn-primary" onclick="PDF('{{ info.first_name }}', '{{ info.last_name }}', '{{ info.patronymic }}',
+    <button id="pdf" class="btn btn-danger" onclick="redirect('{{ info.first_name }}', '{{ info.last_name }}', '{{ info.patronymic }}',
             '{{ info.city }}', '{{ date_birth }}', '{{ info.phone_number }}',
             '{{ info.email }}', '{{ info.sites.0 }}', '{{ info.sites.1 }}', '{{ info.sites.2 }}'
             , '{{ info.sites.3 }}', '{{ info.sites.4 }}'
             , '{{ info.sites.5 }}', '{{ info.sites.6 }}', '{{ info.sites.7 }}', '{{ info.sites.8 }}',
-            '{{ info.sites.9 }}')" id="pdf">PDF</button>
-    <div class="spinner-border spinner-border-sm" role="status" style="display: none;">
-        <span class="sr-only">Loading...</span>
-    </div>
-    <span id="download"></span>
-
+            '{{ info.sites.9 }}');">PDF</button>
 {% endblock %}

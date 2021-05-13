@@ -3,7 +3,9 @@ from .forms import MainForm
 from .url_check import CheckUrl
 from .get_info import Data
 from datetime import date
-
+from django.http import HttpResponse
+import urllib.parse
+import pdfcrowd
 
 def index(request):
     return render(request, 'main/index.html', {'form': MainForm()})
@@ -20,14 +22,13 @@ def result(request):
         first_name = request.GET.get('first_name')
         last_name = request.GET.get('last_name')
         if first_name is not None and last_name is not None:
-            for i in range(1, 11):
-                sites.append(request.GET.get(f'site_{i}'))
-            date_time = request.GET.get('date_birth').split('.')
+            sites = [request.GET.get(f'site_{i}') for i in range(1, 11)]
+            date_time = request.GET.get('date_birth').split('.') if request.GET.get('date_birth') else None
             info = {
                 'first_name': first_name,
                 'last_name': last_name,
                 'patronymic': request.GET.get('patronymic'),
-                'date_birth': date(int(date_time[2]), int(date_time[1]), int(date_time[0])) if date_time[0] != '' else None,
+                'date_birth': date(int(date_time[2]), int(date_time[1]), int(date_time[0])) if date_time else None,
                 'city': request.GET.get('city'),
                 'phone_number': request.GET.get('phone_number'),
                 'email': request.GET.get('email'),
@@ -112,3 +113,30 @@ def getting_sites(data):
         if site is not None and site != '':
             sites.append(site)
     return sites
+
+
+def convert(request):
+    try:
+        client = pdfcrowd.HtmlToPdfClient('zhopka2009', '6feb4fabe37724a3a159eac16fed6ff4')
+        date_time = request.GET.get('date_birth').split('.')
+        first_name = request.GET.get('first_name')
+        last_name = request.GET.get('last_name')
+        patronymic = request.GET.get('patronymic')
+        date_birth = date(int(date_time[2]), int(date_time[1]), int(date_time[0])) if date_time[0] != '' else None
+        email = request.GET.get('email')
+        city = request.GET.get('city')
+        phone_number = request.GET.get('phone_number')
+        sites = [request.GET.get(f'site_{i}') for i in range(1, 11)]
+        site = f'http://84.201.152.104:8000/result?first_name={first_name}&last_name={last_name}&patronymic={patronymic}&city={city}&date_birth={date_birth}&phone_number={phone_number}&email={email}&site_1={sites[0]}&site_2=${sites[1]}&site_3=${sites[2]}&site_4=${sites[3]}&site_5=${sites[4]}&site_6=${sites[5]}&site_7=${sites[6]}&site_8=${sites[7]}&site_9=${sites[8]}&site_10=${sites[9]}'
+        response = HttpResponse(content_type='application/pdf')
+        response['Cache-Control'] = 'max-age=0'
+        response['Accept-Ranges'] = 'none'
+        response['Content-Disposition'] = "attachment; filename*=UTF-8''" + urllib.parse.quote('result.pdf', safe='')
+
+        client.convertUrlToStream(site, response)
+        return response
+    except pdfcrowd.Error as why:
+        # send the error in the HTTP response
+        return HttpResponse(why.getMessage(),
+                            status=why.getCode(),
+                            content_type='text/plain')
