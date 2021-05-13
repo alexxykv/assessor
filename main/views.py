@@ -62,7 +62,7 @@ def add_github(github, urls):
             'followers': user.followers,
             'stars': user.stars,
             'profile_url': user.url,
-            'contributions_year': user.fetch_contributions(3),
+            'contributions_year': user.average_contributions(3),
             'photo': user.photo
         }
     else:
