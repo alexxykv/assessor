@@ -68,15 +68,25 @@ class GithubParser:
             self.forked_repos += list(filter(lambda x: x['fork'], repos))
             i += 1
 
-    def fetch_contributions(self, n):
-        n = min([datetime.datetime.now().year - int(self.created_at[:4]), n])
+    def __fetch_contributions(self, n):
+        n = min([datetime.datetime.now().year - int(self.created_at[:4]) + 1, n])
         year = datetime.datetime.now().year
-        contributions = []
+        contributions = {}
         for i in range(n):
             page = requests.get(f"https://github.com/{self.nickname}?tab=overview&from={year - i}-12-01&to={year - i}-12-31").text
             page = bs4.BeautifulSoup(page, features="html.parser")
             text = page.find("h2", {'class': "f4 text-normal mb-2"}).text
+            text = text.replace("\n", "")
             text = text.replace(',', '')
             num = list(filter(lambda x: x.isdigit(), text.split(' ')))[0]
-            contributions.append(int(num))
+            contributions[year - i] = int(num)
         return contributions
+
+    def average_contributions(self, n):
+        res = {}
+        now_year = datetime.datetime.now().year
+        now_month = datetime.datetime.now().month
+        contributions = self.__fetch_contributions(n)
+        for k, v in contributions.items():
+            res[k] = round(v / (now_month if k == now_year else 12))
+        return res

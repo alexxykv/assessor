@@ -5,11 +5,11 @@
         <p class="lead">Звезды в собственных репозиториях: {{ github.stars }}</p>
         <p class="lead">Кол. форков чужих репозиториев: {{ github.count_fork }}</p>
         <p class="lead">Кол. собственных репозиториев: {{ github.count_user_repos }}</p>
-        <p class="lead">Вклады за 3 года: </p>
+        <p class="lead">Среднее количество вкладов за месяц: </p>
         <ul>
-            <li>2021 - {{ github.contributions_year.0 }} вклад(а/ов)</li>
-            <li>2020 - {{ github.contributions_year.1 }} вклад(а/ов)</li>
-            <li>2019 - {{ github.contributions_year.2 }} вклад(а/ов)</li>
+            <li>2021 г. - {{ github.contributions_year.2021 }} вклад(а/ов)</li>
+            <li>2020 г. - {{ github.contributions_year.2020 }} вклад(а/ов)</li>
+            <li>2019 г. - {{ github.contributions_year.2019 }} вклад(а/ов)</li>
         </ul>
         <p class="lead">Собственные репозитории: </p>
         <ul>

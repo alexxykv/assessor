@@ -7,8 +7,8 @@ class MainForm(ModelForm):
         model = Main
         fields = [
             'firstName',
-            'middleName',
             'lastName',
+            'patronymic',
             'date_birth',
             'phone_number',
             'city',
@@ -30,11 +30,11 @@ class MainForm(ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Иван'
             }),
-            'middleName': TextInput(attrs={
+            'lastName': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Иванов'
             }),
-            'lastName': TextInput(attrs={
+            'patronymic': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Иванович'
             }),
