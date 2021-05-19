@@ -1,10 +1,9 @@
-from parsing.habr.user import User
 from vk_finder import finder
 
-class Data:
 
-    def get_habr_main(nick):
-        habr = User.get(nick)
+class Data:
+    @staticmethod
+    def get_habr_main(habr):
         return {
             'karma': habr['stats']['karma'],
             'rating': habr['stats']['rating'],
@@ -16,8 +15,8 @@ class Data:
 
         }
 
-    def get_habr_contributions(nick):
-        habr = User.get(nick)
+    @staticmethod
+    def get_habr_contributions(habr):
         contributions = []
         for i in habr['contribution']:
             contributions.append(
@@ -29,22 +28,8 @@ class Data:
             )
         return contributions
 
-    def get_habr_posts(nick):
-        habr_posts = User.get_posts(nick)
-        posts = []
-
-        for post in habr_posts:
-            posts.append({
-                'title': post['title'],
-                'voitings': post['voitings'],
-                'favs_count': post['favs_count'],
-                'views': post['views'],
-                'url': post['url']
-            })
-        return posts
-
-    def get_habr_avg(nick):
-        habr_posts = User.get_posts(nick)
+    @staticmethod
+    def get_habr_avg(habr_posts):
         lenght = len(habr_posts)
         avg_voitings = 0
         avg_favs_count = 0
@@ -63,14 +48,17 @@ class Data:
 
         return avgs
 
+    @staticmethod
     def get_git_lang(user):
         data_lang = {}
         for k,i in user.languages.items():
             data_lang[k] = i
         return data_lang
 
+    @staticmethod
     def get_git_userRepos(user):
         return user.user_repos
 
+    @staticmethod
     def get_vk(info):
         return finder.find(info)
