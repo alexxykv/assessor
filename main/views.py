@@ -3,6 +3,7 @@ from .forms import MainForm
 from .url_check import CheckUrl
 from .get_info import Data
 from datetime import date
+from parsing.habr.user import User
 from django.http import HttpResponse
 import urllib.parse
 import pdfcrowd
@@ -22,18 +23,21 @@ def result(request):
         first_name = request.GET.get('first_name')
         last_name = request.GET.get('last_name')
         if first_name is not None and last_name is not None:
-            sites = [request.GET.get(f'site_{i}') for i in range(1, 11)]
-            date_time = request.GET.get('date_birth').split('.') if request.GET.get('date_birth') else None
+            sites = [request.GET.get(f'site_{i}') if request.GET.get(f'site_{i}') else '' for i in range(1, 11)]
             info = {
-                'first_name': first_name,
-                'last_name': last_name,
-                'patronymic': request.GET.get('patronymic'),
-                'date_birth': date(int(date_time[2]), int(date_time[1]), int(date_time[0])) if date_time else None,
-                'city': request.GET.get('city'),
-                'phone_number': request.GET.get('phone_number'),
-                'email': request.GET.get('email'),
-                'sites': sites
+                'first_name': '',
+                'last_name': '',
+                'patronymic': '',
+                'date_birth': None,
+                'city': '',
+                'phone_number': '',
+                'email': ''
             }
+            for item in request.GET.items():
+                info[item[0]] = item[1]
+            if request.GET.get('date_birth'):
+                date_array = request.GET.get('date_birth').split('-')
+                info['date_birth'] = date(int(date_array[0]), int(date_array[1]), int(date_array[2]))
             flag = True
 
     if request.method == "POST":
@@ -47,8 +51,7 @@ def result(request):
                 'date_birth': form.cleaned_data.get("date_birth"),
                 'city': form.cleaned_data.get("city"),
                 'phone_number': form.cleaned_data.get("phone_number"),
-                'email': form.cleaned_data.get("email"),
-                'sites': sites
+                'email': form.cleaned_data.get("email")
             }
             flag = True
     if flag:
@@ -63,10 +66,16 @@ def result(request):
             'info': info,
             'photo': user_vk[0]['photo_200'] if user_vk else '/static/main/img/anon.png'
         }
-        if info['date_birth']:
-            data['date_birth'] = str(info['date_birth'].timetuple()[2]) \
-                                 + '.' + str(info['date_birth'].timetuple()[1]) \
-                                 + '.' + str(info['date_birth'].timetuple()[0])
+        convert_url = '/result/convert?'
+        for item in info.items():
+            if item[1] != '' and item[1]:
+                convert_url += item[0] + '=' + str(item[1]) + '&'
+        i = 1
+        for site in sites:
+            if site != '':
+                convert_url += f'site_{i}' + '=' + site + '&'
+            i += 1
+        info['convert_url'] = convert_url[:-1]
         return render(request, 'main/result.html', data)
     return redirect('/')
 
@@ -74,11 +83,13 @@ def result(request):
 def add_habr(habr, urls):
     if 'habr.com' in urls:
         nick = urls['habr.com']
+        user = User.get(nick)
+        posts = User.get_posts(nick)
         habr = {
-            'main': Data.get_habr_main(nick),
-            'contributions': Data.get_habr_contributions(nick),
-            'posts': Data.get_habr_posts(nick),
-            'avgs': Data.get_habr_avg(nick)
+            'main': Data.get_habr_main(user),
+            'contributions': Data.get_habr_contributions(user),
+            'posts': posts,
+            'avgs': Data.get_habr_avg(posts)
         }
     else:
         habr = None
@@ -116,18 +127,12 @@ def getting_sites(data):
 
 
 def convert(request):
+    req = '/result?'
+    for item in request.GET.items():
+        req += str(item[0]) + '=' + str(item[1]) + '&'
     try:
         client = pdfcrowd.HtmlToPdfClient('zhopka2009', '6feb4fabe37724a3a159eac16fed6ff4')
-        date_time = request.GET.get('date_birth').split('.')
-        first_name = request.GET.get('first_name')
-        last_name = request.GET.get('last_name')
-        patronymic = request.GET.get('patronymic')
-        date_birth = date(int(date_time[2]), int(date_time[1]), int(date_time[0])) if date_time[0] != '' else None
-        email = request.GET.get('email')
-        city = request.GET.get('city')
-        phone_number = request.GET.get('phone_number')
-        sites = [request.GET.get(f'site_{i}') for i in range(1, 11)]
-        site = f'http://84.201.152.104:8000/result?first_name={first_name}&last_name={last_name}&patronymic={patronymic}&city={city}&date_birth={date_birth}&phone_number={phone_number}&email={email}&site_1={sites[0]}&site_2=${sites[1]}&site_3=${sites[2]}&site_4=${sites[3]}&site_5=${sites[4]}&site_6=${sites[5]}&site_7=${sites[6]}&site_8=${sites[7]}&site_9=${sites[8]}&site_10=${sites[9]}'
+        site = f'http://84.201.152.104:8000{req[:-1]}'
         response = HttpResponse(content_type='application/pdf')
         response['Cache-Control'] = 'max-age=0'
         response['Accept-Ranges'] = 'none'
@@ -136,7 +141,6 @@ def convert(request):
         client.convertUrlToStream(site, response)
         return response
     except pdfcrowd.Error as why:
-        # send the error in the HTTP response
         return HttpResponse(why.getMessage(),
                             status=why.getCode(),
                             content_type='text/plain')
