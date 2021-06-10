@@ -71,22 +71,23 @@ class GithubParser:
     def __fetch_contributions(self, n):
         n = min([datetime.datetime.now().year - int(self.created_at[:4]) + 1, n])
         year = datetime.datetime.now().year
-        contributions = {}
+        contributions = []
         for i in range(n):
-            page = requests.get(f"https://github.com/{self.nickname}?tab=overview&from={year - i}-12-01&to={year - i}-12-31").text
+            page = requests.get(
+                f"https://github.com/{self.nickname}?tab=overview&from={year - i}-12-01&to={year - i}-12-31").text
             page = bs4.BeautifulSoup(page, features="html.parser")
             text = page.find("h2", {'class': "f4 text-normal mb-2"}).text
             text = text.replace("\n", "")
             text = text.replace(',', '')
             num = list(filter(lambda x: x.isdigit(), text.split(' ')))[0]
-            contributions[year - i] = int(num)
+            contributions.append(int(num))
         return contributions
 
     def average_contributions(self, n):
-        res = {}
-        now_year = datetime.datetime.now().year
         now_month = datetime.datetime.now().month
         contributions = self.__fetch_contributions(n)
-        for k, v in contributions.items():
-            res[k] = round(v / (now_month if k == now_year else 12))
-        return res
+        for i in range(len(contributions)):
+            contributions[i] = round(contributions[i] / (now_month if i == 0 else 12))
+        if len(contributions) < 3:
+            contributions += [0] * (3 - len(contributions))
+        return contributions
