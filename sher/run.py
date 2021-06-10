@@ -1,10 +1,11 @@
-from sherlock.sherlock import sherlock
-from sherlock.notify import QueryNotify, QueryStatus
-from sherlock.sites import SitesInformation
+from sher.sherlock.sherlock import sherlock
+from sher.sherlock.notify import QueryNotify, QueryStatus
+from sher.sherlock.sites import SitesInformation
 
 
 def search(username):
-    sites = SitesInformation('sherlock/resources/data.json')
+
+    sites = SitesInformation('sher/sherlock/resources/data.json')
     site_data = {}
     for site in sites:
         site_data[site.name] = site.information

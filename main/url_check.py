@@ -2,12 +2,12 @@ import re
 from parsing.github import gitpars
 
 
-
 class CheckUrl:
-    def __init__(self, sites):
+    def __init__(self, sites, sherlock):
         self.sites = sites
         self.url = ''
         self.result = {}
+        self.sherlock = sherlock
 
     def check(self):
         pars_dict = {'github.com': self.github, 'habr.com': self.habr}
@@ -15,6 +15,13 @@ class CheckUrl:
             self.url = self.sites[i]
             domen = re.findall(r'//([^/]*\.[^/:]+)', self.url)[0]
             self.result[domen] = pars_dict[domen]()
+        for i in self.sherlock.items():
+            self.url = i[1]
+            if i[0] == 'GitHub' and 'github.com' not in self.result:
+                self.result['github.com'] = pars_dict['github.com']()
+            if i[0] == 'habr' and 'habr.com' not in self.result:
+                self.result['habr.com'] = pars_dict['habr.com']()
+
         return self.result
 
     def github(self):

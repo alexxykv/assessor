@@ -1,7 +1,5 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 <script>
-    let ctx = document.getElementById('myChart').getContext('2d');
+    let ctx = document.getElementById('lang_graph').getContext('2d');
     let lang_array = [];
     let data_array = [];
 </script>
@@ -12,7 +10,7 @@
     </script>
 {% endfor %}
 <script>
-    let myChart = new Chart(ctx, {
+    let lang_graph = new Chart(ctx, {
         type: 'pie',
         data: {
             labels: lang_array,

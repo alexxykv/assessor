@@ -7,9 +7,9 @@
         <p class="lead">Кол. собственных репозиториев: {{ github.count_user_repos }}</p>
         <p class="lead">Среднее количество вкладов за месяц: </p>
         <ul>
-            <li>2021 г. - {{ github.contributions_year.2021 }} вклад(а/ов)</li>
-            <li>2020 г. - {{ github.contributions_year.2020 }} вклад(а/ов)</li>
-            <li>2019 г. - {{ github.contributions_year.2019 }} вклад(а/ов)</li>
+            <li>2021 г. - {{ github.contributions_year.0 }} вклад(а/ов)</li>
+            <li>2020 г. - {{ github.contributions_year.1 }} вклад(а/ов)</li>
+            <li>2019 г. - {{ github.contributions_year.2 }} вклад(а/ов)</li>
         </ul>
         <p class="lead">Собственные репозитории: </p>
         <ul>
@@ -19,7 +19,6 @@
         </ul>
     </div>
     <div class="col-sm-6">
-        <canvas id="myChart"></canvas>
-        <p class=""></p>
+        <canvas id="lang_graph"></canvas>
     </div>
 </div>

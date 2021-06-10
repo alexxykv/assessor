@@ -1,0 +1,29 @@
+<script>
+                const config = {
+                    type: 'line',
+                    data: {
+                        labels: [
+                            '2019',
+                            '2020',
+                            '2021'
+                        ],
+                        datasets: [{
+                            label: 'Result',
+                            data: [{{ github.contributions_year.2 }}, {{ github.contributions_year.1 }}, {{ github.contributions_year.0 }}],
+                            fill: false,
+                            borderColor: '#eb8a44',
+                            tension: 0
+                        }, {
+                            label: 'AVG',
+                            data: [{{ github.avg_values.2 }}, {{ github.avg_values.1 }}, {{ github.avg_values.0 }}],
+                            fill: false,
+                            borderColor: '#8eba43',
+                            tension: 0
+                        }]
+                    },
+                };
+                let avg_graph = new Chart(
+                    document.getElementById('avg_graph'),
+                    config
+                );
+            </script>

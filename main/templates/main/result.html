@@ -8,14 +8,11 @@
     </div>
     <!-- MAIN INFO -->
     <hr class="my-4">
-    <p><h4 style="text-align: center">Оценка: <span id="random"></span></h4></p>
-    <script>
-        let rnd = Math.floor(Math.random() * 100) + '%';
-        document.getElementById('random').innerHTML = rnd;
-    </script>
     <div class="row">
         <div class="col"></div>
         <div class="col">
+            <h5>Nickname: <a href="https://vk.com/id{{ vk.id }}" style="text-decoration: none">{{ vk.screen_name }}</a>
+            </h5>
             <h5>Имя: <span class="lead">{{ info.first_name }}</span></h5>
             <h5>Фамилия: <span class="lead">{{ info.last_name }}</span></h5>
             <h5>Дата рождения: <span class="lead">{% if info.date_birth %}{{ info.date_birth }}{% else %}
@@ -30,7 +27,13 @@
     </div>
     <hr class="my-4">
     <!-- END MAIN INFO -->
-
+    <!-- Metrics -->
+    {% if github %}
+    <h4 class="mb-4">Github - {{ github.ratio }}</h4>
+    {% include 'main/analysis/git_analysis.html' %}
+    <hr class="my-4">
+    {% endif %}
+    <!-- END Metrics -->
     <!-- HABR -->
     {% if habr != None %}
         <h4 class="mb-4">Habr <a href="#" onclick="show('show_habr', 'hide_habr'); view('hidden_habr'); return false">
@@ -41,7 +44,6 @@
         <div id="hidden_habr" style="display: block;">
             {% include 'main/results/habr.html' %}
         </div>
-
         <hr class="my-4">
     {% endif %}
     <!-- END HABR -->
@@ -59,8 +61,14 @@
         </div>
         {% include 'main/scripts/diagrammGitHub.html' %}
     {% endif %}
-    <hr class="my-4">
+    <hr class="my-2">
     <!-- END GITHUB -->
     {% include 'main/scripts/show_hide.html' %}
+    <div style="text-align: center;">
+        {% for item in sherlock.items %}
+            <a href="{{ item.1 }}">{{ item.0 }}</a>
+        {% endfor %}
+    </div>
+    <hr class="my-2">
     <input class="btn btn-success" type="button" value="PDF" onClick='window.location="{{ info.convert_url }}"'>
 {% endblock %}
