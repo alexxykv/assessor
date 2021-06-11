@@ -62,6 +62,7 @@ def result(request):
         urls = CheckUrl(getting_sites(sites), sherlock).check()
         github = add_github(urls)
         habr = add_habr(urls)
+        info['ratio'] = 0
         if github:
             info['ratio'] += github['ratio'] * 0.6
         if habr:

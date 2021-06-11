@@ -31,11 +31,11 @@ class Data:
     @staticmethod
     def get_habr_avg(habr_posts, contributions):
         lenght = len(habr_posts)
+        lenght_contribs = len(contributions)
         avg_voitings = 0
         avg_favs_count = 0
         avg_views = 0
         avg_contribs = 0
-        lenght_contribs = len(contributions)
         avgs = {
             'voitings': 0,
             'favs_count': 0,
@@ -44,9 +44,14 @@ class Data:
         }
         if lenght != 0:
             for post in habr_posts:
+                views = post['views']
+                if views[len(post['views']) - 1] == 'k':
+                    views = float(post['views'].replace('k', ''))
+                else:
+                    views = float(post['views']) / 1000
                 avg_voitings += int(post['voitings'].replace('–', '-'))
                 avg_favs_count += int(post['favs_count'])
-                avg_views += float(post['views'][:len(post['views']) - 1])
+                avg_views += views
             avgs = {
                 'voitings': round(avg_voitings / lenght, 1),
                 'favs_count': round(avg_favs_count / lenght, 1),
