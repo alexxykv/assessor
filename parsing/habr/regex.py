@@ -2,7 +2,7 @@ class RegexUser:
     NAME = r'<a href=".*" class="user-info__fullname user-info__fullname_medium".*>(.*)</a>&'
     NICKNAME = r'<a href=".*" class="user-info__nickname user-info__nickname_doggy".*>(.*)</a>'
     HUBS = r'<a href="(.*)" class="profile-section__user-hub ">(.*)</a>'
-    STATS = r'<div class="stacked-counter__value stacked-counter__value_.*">(.*)</div>'
+    STATS = r'<div class="stacked-counter__value .*">(.*)</div>'
     SPECIALIZATION = r'<div class="user-info__specialization">(.*)</div>'
     RANKED = r'<a href=".*" class="defination-list__link">(\d*).*й</a>'
     CITY = r'<a href=".*city.*" class="defination-list__link">(.*)</a>'
@@ -18,7 +18,7 @@ class RegexUser:
     CONTRIB_NAME = r'<span class="rating-info__title" title=".*">(.*)</span>'
     CONTRIB_VALUE = r'<span class="rating-info__stat">(.*)</span>'
     POSTS = r'<a href=".*/([postblog]{4})/(.*)/" class="post__title_link">(.*)</a>'
-    POST_VOITINGS = r'<span class="post-stats__result-counter voting-wjt__counter_positive " title=".*">(.*)</span>'
+    POST_VOITINGS = r'<span class="post-stats__result-counter .*" title=".*">(.*)</span>'
     POST_VIEWS = r'<span class="post-stats__views-count">(.*)</span>'
     POST_FAVS_COUNT = r'<span class="bookmark__counter js-favs_count" title=".*">(\d*)</span>'
 
