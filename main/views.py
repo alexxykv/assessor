@@ -31,7 +31,8 @@ def result(request):
                 'date_birth': None,
                 'city': '',
                 'phone_number': '',
-                'email': ''
+                'email': '',
+                'ratio': 0
             }
             for item in request.GET.items():
                 info[item[0]] = item[1]
