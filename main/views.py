@@ -150,7 +150,7 @@ def habr_evaluation(habr_avg_values, habr):
         'favs_count': 10 if favs_count >= 10 else favs_count,
         'views': 12.5 if views >= 12.5 else views,
     }
-    return round(sum(habr_ratio.values(), 2))
+    return round(sum(habr_ratio.values()))
 
 
 def add_github(urls):
@@ -221,7 +221,7 @@ def git_evaluation(git_avg_values, github):
         "cont_year_y1": 15 if y1 >= 15 else y1,
         "cont_year_y0": 15 if y0 >= 15 else y0
     }
-    return round(sum(git_ratio.values()), 2)
+    return round(sum(git_ratio.values()))
 
 
 def getting_sites(data):

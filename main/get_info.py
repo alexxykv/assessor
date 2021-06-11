@@ -36,21 +36,26 @@ class Data:
         avg_views = 0
         avg_contribs = 0
         lenght_contribs = len(contributions)
-        for i in contributions:
-            avg_contribs += float(i['value'])
-
-        for post in habr_posts:
-            avg_voitings += int(post['voitings'][1::])
-            avg_favs_count += int(post['favs_count'])
-            avg_views += float(post['views'][:len(post['views']) - 1])
-
         avgs = {
-            'voitings': round(avg_voitings / lenght, 1),
-            'favs_count': round(avg_favs_count / lenght, 1),
-            'views': round(avg_views / lenght, 1),
-            'contribs': round(avg_contribs / lenght_contribs, 1)
+            'voitings': 0,
+            'favs_count': 0,
+            'views': 0,
+            'contribs': 0
         }
-
+        if lenght != 0:
+            for post in habr_posts:
+                avg_voitings += int(post['voitings'].replace('–', '-'))
+                avg_favs_count += int(post['favs_count'])
+                avg_views += float(post['views'][:len(post['views']) - 1])
+            avgs = {
+                'voitings': round(avg_voitings / lenght, 1),
+                'favs_count': round(avg_favs_count / lenght, 1),
+                'views': round(avg_views / lenght, 1),
+            }
+        if lenght_contribs != 0:
+            for i in contributions:
+                avg_contribs += float(i['value'])
+            avgs['contribs'] = round(avg_contribs / lenght_contribs, 1)
         return avgs
 
     @staticmethod
