@@ -15,8 +15,6 @@ def index(request):
 
 
 def result(request):
-    github = {}
-    habr = {}
     sites = []
     info = {}
     form = None
@@ -53,21 +51,27 @@ def result(request):
                 'date_birth': form.cleaned_data.get("date_birth"),
                 'city': form.cleaned_data.get("city"),
                 'phone_number': form.cleaned_data.get("phone_number"),
-                'email': form.cleaned_data.get("email")
+                'email': form.cleaned_data.get("email"),
+                'ratio': 0
             }
             flag = True
     if flag:
         user_vk = Data.get_vk(info)
-        sherlock = run.search(user_vk[0]['screen_name'])
+        sherlock = run.search(user_vk[0]['screen_name']) if user_vk else None
         urls = CheckUrl(getting_sites(sites), sherlock).check()
-        github = add_github(github, urls)
-        habr = add_habr(habr, urls)
+        github = add_github(urls)
+        habr = add_habr(urls)
+        if github:
+            info['ratio'] += github['ratio'] * 0.6
+        if habr:
+            info['ratio'] += habr['ratio'] * 0.4
+        info['ratio'] = round(info['ratio'], 2)
 
         data = {
             'form': form,
             'habr': habr,
             'github': github,
-            'vk': user_vk[0],
+            'vk': user_vk[0] if user_vk else None,
             'sherlock': sherlock,
             'info': info,
             'photo': user_vk[0]['photo_200'] if user_vk else '/static/main/img/anon.png'
@@ -86,22 +90,69 @@ def result(request):
     return redirect('/')
 
 
-def add_habr(habr, urls):
+def add_habr(urls):
     if 'habr.com' in urls:
+        # Mereics
+        avg_values = {
+            'karma': 46.6,
+            'rating': 87.6,
+            'followers': 20.0,
+            'contribs': 123.2,
+            'voitings': 44.1,
+            'favs_count': 59.2,
+            'views': 14.6
+        }
         nick = urls['habr.com']
         user = User.get(nick)
         posts = User.get_posts(nick)
         habr = {
             'main': Data.get_habr_main(user),
             'contributions': Data.get_habr_contributions(user),
-            'posts': posts,
-            'avgs': Data.get_habr_avg(posts)
+            'posts': posts
+        }
+        habr['avgs'] = Data.get_habr_avg(posts, habr['contributions'])  # В виде чисел
+        habr['ratio'] = habr_evaluation(avg_values, habr)
+        habr['analysis'] = {
+            'karma': round(float(habr['main']['karma']) - avg_values['karma'], 2),
+            'rating': round(float(habr['main']['rating']) - avg_values['rating'], 2),
+            'followers': int(float(habr['main']['followers']) - avg_values['followers']),
+            'contribs': round(habr['avgs']['contribs'] - avg_values['contribs'], 2),
+            'voitings': round(habr['avgs']['voitings'] - avg_values['voitings'], 2),
+            'favs_count': round(habr['avgs']['favs_count'] - avg_values['favs_count'], 2),
+            'views': str(round(habr['avgs']['views'] - avg_values['views'], 2)) + 'k',
+        }
+        habr['avgs'] = {  # В виде строки
+            'voitings': str(habr['avgs']['voitings']).replace(',', '.'),
+            'favs_count': str(habr['avgs']['favs_count']).replace(',', '.'),
+            'views': str(habr['avgs']['views']) + "k",
+            'contribs': habr['avgs']['contribs']
         }
         return habr
     return None
 
 
-def add_github(github, urls):
+def habr_evaluation(habr_avg_values, habr):
+    # Metrics ratio HABR
+    karma = 100 * float(habr['main']['karma']) / habr_avg_values['karma'] * 0.2
+    rating = 100 * float(habr['main']['rating']) / habr_avg_values['rating'] * 0.2
+    followers = 100 * float(habr['main']['followers']) / habr_avg_values['followers'] * 0.1
+    contribs = 100 * habr['avgs']['contribs'] / habr_avg_values['contribs'] * 0.175
+    voitings = 100 * habr['avgs']['voitings'] / habr_avg_values['voitings'] * 0.1
+    favs_count = 100 * habr['avgs']['favs_count'] / habr_avg_values['favs_count'] * 0.1
+    views = 100 * habr['avgs']['views'] / habr_avg_values['views'] * 0.125
+    habr_ratio = {
+        'karma': 20 if karma >= 20 else karma,
+        'rating': 20 if rating >= 20 else rating,
+        'followers': 10 if followers >= 10 else followers,
+        'contribs': 17.5 if contribs >= 17.5 else contribs,
+        'voitings': 10 if voitings >= 10 else voitings,
+        'favs_count': 10 if favs_count >= 10 else favs_count,
+        'views': 12.5 if views >= 12.5 else views,
+    }
+    return round(sum(habr_ratio.values(), 2))
+
+
+def add_github(urls):
     if 'github.com' in urls:
         # Metrics
         avg_values = {
@@ -144,23 +195,30 @@ def add_github(github, urls):
             'stars': github['stars'] - avg_values['stars'],
             'count_all_repos': github['count_all_repos'] - avg_values['count_all_repos'],
         }
-        github['ratio'] = str(evaluation(avg_values, github))
+        github['ratio'] = git_evaluation(avg_values, github)
         return github
     return None
 
 
-def evaluation(git_avg_values, github):
+def git_evaluation(git_avg_values, github):
     # Metrics ratio GITHUB
     # Stars - 15%, y2019,2020,2021 - 15% (45%), Lang - 10%
     # Followers - 15%, All repos - 15%
+    followers = 100 * github['followers'] / git_avg_values['followers'] * 0.15
+    langs = 100 * github['count_lang'] / git_avg_values['count_lang'] * 0.10
+    stars = 100 * github['stars'] / git_avg_values['stars'] * 0.15
+    all_repos = 100 * github['count_all_repos'] / git_avg_values['count_all_repos'] * 0.15
+    y2 = 100 * github['contributions_year'][2] / git_avg_values['contr_y2'] * 0.15
+    y1 = 100 * github['contributions_year'][1] / git_avg_values['contr_y1'] * 0.15
+    y0 = 100 * github['contributions_year'][0] / git_avg_values['contr_y0'] * 0.15
     git_ratio = {
-        "followers": 100 * github['followers'] / git_avg_values['followers'] * 0.15,
-        "langs": 100 * github['count_lang'] / git_avg_values['count_lang'] * 0.10,
-        "stars": 100 * github['stars'] / git_avg_values['stars'] * 0.15,
-        "all_repos": 100 * github['count_all_repos'] / git_avg_values['count_all_repos'] * 0.15,
-        "cont_year_y2": 100 * github['contributions_year'][2] / git_avg_values['contr_y2'] * 0.15,
-        "cont_year_y1": 100 * github['contributions_year'][1] / git_avg_values['contr_y1'] * 0.15,
-        "cont_year_y0": 100 * github['contributions_year'][0] / git_avg_values['contr_y0'] * 0.15
+        "followers": 15 if followers >= 15 else followers,
+        "langs": 10 if langs >= 10 else langs,
+        "stars": 15 if stars >= 15 else stars,
+        "all_repos": 15 if all_repos >= 15 else all_repos,
+        "cont_year_y2": 15 if y2 >= 15 else y2,
+        "cont_year_y1": 15 if y1 >= 15 else y1,
+        "cont_year_y0": 15 if y0 >= 15 else y0
     }
     return round(sum(git_ratio.values()), 2)
 

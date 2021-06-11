@@ -11,7 +11,8 @@
     <div class="row">
         <div class="col"></div>
         <div class="col">
-            <h5>Nickname: <a href="https://vk.com/id{{ vk.id }}" style="text-decoration: none">{{ vk.screen_name }}</a>
+            <h5>Nickname: <a href="https://vk.com/id{{ vk.id }}" style="text-decoration: none">
+                {% if vk %}{{ vk.screen_name }}{% else %}Неизвестно{% endif %}</a>
             </h5>
             <h5>Имя: <span class="lead">{{ info.first_name }}</span></h5>
             <h5>Фамилия: <span class="lead">{{ info.last_name }}</span></h5>
@@ -19,6 +20,7 @@
                 Неизвестно{% endif %}</span></h5>
             <h5>Город: <span class="lead">{% if info.city %}{{ info.city }}{% else %}
                 Неизвестно{% endif %}</span></h5>
+            <h5>Общая оценка: {{ info.ratio }}</h5>
         </div>
         <div class="col">
             <img src="{{ photo }}" alt="photo" style="width: 200px; height: 200px;">
@@ -29,10 +31,15 @@
     <!-- END MAIN INFO -->
     <!-- Metrics -->
     {% if github %}
-    <h4 class="mb-4">Github - {{ github.ratio }}</h4>
-    {% include 'main/analysis/git_analysis.html' %}
-    <hr class="my-4">
+        <h4 class="mb-4">Github - {{ github.ratio }}</h4>
+        {% include 'main/analysis/git_analysis.html' %}
     {% endif %}
+    {% if habr %}
+        <h4 class="mb-4">Habr - {{ habr.ratio }}</h4>
+        {% include 'main/analysis/habr_analisys.html' %}
+        <hr class="my-4">
+    {% endif %}
+
     <!-- END Metrics -->
     <!-- HABR -->
     {% if habr != None %}
@@ -60,8 +67,8 @@
             {% include 'main/results/github.html' %}
         </div>
         {% include 'main/scripts/diagrammGitHub.html' %}
+        <hr class="my-2">
     {% endif %}
-    <hr class="my-2">
     <!-- END GITHUB -->
     {% include 'main/scripts/show_hide.html' %}
     <div style="text-align: center;">
