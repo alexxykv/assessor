@@ -18,7 +18,7 @@ class RegexUser:
     CONTRIB_NAME = r'<span class="rating-info__title" title=".*">(.*)</span>'
     CONTRIB_VALUE = r'<span class="rating-info__stat">(.*)</span>'
     POSTS = r'<a href=".*/([postblog]{4})/(.*)/" class="post__title_link">(.*)</a>'
-    POST_VOITINGS = r'<span class="post-stats__result-counter voting-wjt__counter_positive " title=".*">(.*)</span>'
+    POST_VOITINGS = r'<span class="post-stats__result-counter .*" title=".*">(.*)</span>'
     POST_VIEWS = r'<span class="post-stats__views-count">(.*)</span>'
     POST_FAVS_COUNT = r'<span class="bookmark__counter js-favs_count" title=".*">(\d*)</span>'
 
