@@ -29,21 +29,10 @@
     </div>
     <hr class="my-4">
     <!-- END MAIN INFO -->
-    <!-- Metrics -->
-    {% if github %}
-        <h4 class="mb-4">Github - {{ github.ratio }}</h4>
-        {% include 'main/analysis/git_analysis.html' %}
-    {% endif %}
-    {% if habr %}
-        <h4 class="mb-4">Habr - {{ habr.ratio }}</h4>
-        {% include 'main/analysis/habr_analisys.html' %}
-        <hr class="my-4">
-    {% endif %}
-
-    <!-- END Metrics -->
     <!-- HABR -->
     {% if habr != None %}
-        <h4 class="mb-4">Habr <a href="#" onclick="show('show_habr', 'hide_habr'); view('hidden_habr'); return false">
+        <h4 class="mb-4">Habr - {{ habr.ratio }} <a href="#"
+                                                    onclick="show('show_habr', 'hide_habr'); view('hidden_habr'); return false">
             <span><i class="fas fa-caret-square-down" id="show_habr"></i></span>
             <span id='hide_habr'></span></a></h4>
         <hr class="my-4">
@@ -56,8 +45,8 @@
     <!-- END HABR -->
     <!-- GITHUB -->
     {% if github != None %}
-        <h4 class="mb-4">Github <a href="#"
-                                   onclick="show('show_github', 'hide_github'); view('hidden_github'); return false">
+        <h4 class="mb-4">Github - {{ github.ratio }} <a href="#"
+                                                        onclick="show('show_github', 'hide_github'); view('hidden_github'); return false">
             <span><i class="fas fa-caret-square-down" id="show_github"></i></span>
             <span id="hide_github"></span>
         </a>
@@ -66,16 +55,19 @@
         <div id="hidden_github" style="display: block;">
             {% include 'main/results/github.html' %}
         </div>
-        {% include 'main/scripts/diagrammGitHub.html' %}
         <hr class="my-2">
     {% endif %}
     <!-- END GITHUB -->
     {% include 'main/scripts/show_hide.html' %}
-    <div style="text-align: center;">
-        {% for item in sherlock.items %}
-            <a href="{{ item.1 }}">{{ item.0 }}</a>
-        {% endfor %}
-    </div>
-    <hr class="my-2">
+    <!-- SHERLOCK -->
+    {% if sherlock %}
+        <div style="text-align: center;">
+            {% for item in sherlock.items %}
+                <a href="{{ item.1 }}">{{ item.0 }}</a>
+            {% endfor %}
+        </div>
+        <hr class="my-2">
+    {% endif %}
+    <!-- END SHERLOCK -->
     <input class="btn btn-success" type="button" value="PDF" onClick='window.location="{{ info.convert_url }}"'>
 {% endblock %}

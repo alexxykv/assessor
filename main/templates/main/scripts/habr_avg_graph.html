@@ -1,0 +1,79 @@
+<script>
+    const habr_config = {
+        type: 'bar',
+        data: {
+            labels: [
+                'karma',
+                'rating',
+                'followers',
+                'contribs',
+                'voitings',
+                'favs',
+                'views'
+            ],
+            datasets: [{
+                label: 'Result',
+                data: [
+                    {{ habr.main.karma }},
+                    {{ habr.main.rating }},
+                    {{ habr.main.followers }},
+                    {{ habr.avgs.contribs }},
+                    {{ habr.avgs.voitings }},
+                    {{ habr.avgs.favs_count }},
+                    {{ habr.avgs.views }}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }, {
+                label: 'AVG',
+                data: [
+                    {{ habr.avg_values.karma }},
+                    {{ habr.avg_values.rating }},
+                    {{ habr.avg_values.followers }},
+                    {{ habr.avg_values.contribs }},
+                    {{ habr.avg_values.voitings }},
+                    {{ habr.avg_values.favs_count }},
+                    {{ habr.avg_values.views }}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)',
+                    'rgb(153, 102, 255)',
+                    'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        },
+    };
+    let avg_graph = new Chart(
+        document.getElementById('habr_avg_graph'),
+        habr_config
+    );
+</script>
