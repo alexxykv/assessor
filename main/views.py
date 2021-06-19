@@ -9,6 +9,7 @@ from sher import run
 from linkedin_api import Linkedin
 import urllib.parse
 import pdfcrowd
+from django.template import RequestContext
 import json
 
 
@@ -71,7 +72,6 @@ def result(request):
         if habr:
             info['ratio'] += habr['ratio'] * 0.4
         info['ratio'] = round(info['ratio'], 2)
-
         data = {
             'form': form,
             'habr': habr,
@@ -263,3 +263,11 @@ def convert(request):
         return HttpResponse(why.getMessage(),
                             status=why.getCode(),
                             content_type='text/plain')
+
+
+def e_handler500(request):
+    return render(request, 'main/errors/500.html')
+
+
+def e_handler404(request, exception):
+    return render(request, 'main/errors/404.html')

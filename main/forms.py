@@ -1,5 +1,5 @@
 from .models import Main
-from django.forms import ModelForm, TextInput, DateInput, EmailInput, URLInput, RegexField, CharField
+from django.forms import ModelForm, TextInput, DateInput, EmailInput, URLInput
 
 
 class MainForm(ModelForm):
@@ -41,7 +41,9 @@ class MainForm(ModelForm):
             'date_birth': DateInput(attrs={
                 'class': 'form-control',
                 'placeholder': '01.01.1999',
-                'type': 'date'
+                'type': 'date',
+                'min': '1900-01-01',
+                'value': '1900-01-01'
             }),
             'city': TextInput(attrs={
                 'class': 'form-control',
