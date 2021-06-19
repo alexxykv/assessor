@@ -3,7 +3,6 @@ requests>=2.22.0
 vk_api>=11.9.2
 bs4>=0.0.1
 beautifulsoup4>=4.8.0
-lxml>=4.6.3
 certifi>=2019.6.16
 colorama>=0.4.1
 PySocks>=1.7.0

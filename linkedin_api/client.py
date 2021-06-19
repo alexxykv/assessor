@@ -119,7 +119,7 @@ class Client(object):
             proxies=self.proxies,
         )
 
-        soup = BeautifulSoup(res.text, "lxml")
+        soup = BeautifulSoup(res.text, "html.parser")
 
         clientApplicationInstanceRaw = soup.find(
             "meta", attrs={"name": "applicationInstance"}
