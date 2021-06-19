@@ -6,8 +6,10 @@ from datetime import date
 from parsing.habr.user import User
 from django.http import HttpResponse
 from sher import run
+from linkedin_api import Linkedin
 import urllib.parse
 import pdfcrowd
+import json
 
 
 def index(request):
@@ -62,6 +64,7 @@ def result(request):
         urls = CheckUrl(getting_sites(sites), sherlock).check()
         github = add_github(urls)
         habr = add_habr(urls)
+        linkedin = add_linkedin(urls)
         info['ratio'] = 0
         if github:
             info['ratio'] += github['ratio'] * 0.6
@@ -73,6 +76,7 @@ def result(request):
             'form': form,
             'habr': habr,
             'github': github,
+            'linkedin': linkedin,
             'vk': user_vk[0] if user_vk else None,
             'sherlock': sherlock,
             'info': info,
@@ -90,6 +94,21 @@ def result(request):
         info['convert_url'] = convert_url[:-1]
         return render(request, 'main/result.html', data)
     return redirect('/')
+
+
+def add_linkedin(urls):
+    if 'www.linkedin.com' in urls:
+        api_link = Linkedin('+79065350750', '1qaz2wsx3edC')
+        nickname = urls['www.linkedin.com']
+        profile = api_link.get_profile(nickname)
+        contact = api_link.get_profile_contact_info(nickname)
+        network = api_link.get_profile_network_info(nickname)
+        linkedin = profile | contact | network
+        linkedin['skills'] = api_link.get_profile_skills(nickname)
+        # linkedin['updates'] = api_link.get_profile_updates(nickname, max_results=2)
+        # print(json.dumps(linkedin['updates']))
+        return linkedin
+    return None
 
 
 def add_habr(urls):
@@ -125,7 +144,6 @@ def add_habr(urls):
             'favs_count': round(avgs['favs_count'] - avg_values['favs_count'], 2),
             'views': str(round(avgs['views'] - avg_values['views'], 2)) + 'k',
         }
-        print(habr['avg_values'])
         return habr
     return None
 

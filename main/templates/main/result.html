@@ -29,6 +29,19 @@
     </div>
     <hr class="my-4">
     <!-- END MAIN INFO -->
+    <!-- LINKEDIN -->
+    {% if linkedin %}
+    <h4 class="mb-4">LinkedIn <a href="#"
+                                        onclick="show('show_linkedin', 'hide_linkedin'); view('hidden_linkedin'); return false">
+        <span><i class="fas fa-caret-square-down" id="show_linkedin"></i></span>
+        <span id='hide_linkedin'></span></a></h4>
+    <hr class="my-4">
+    <div id="hidden_linkedin" style="display: block;">
+        {% include 'main/results/linkedin.html' %}
+    </div>
+    <hr class="my-4">
+    {% endif %}
+    <!-- END LINKEDIN -->
     <!-- HABR -->
     {% if habr != None %}
         <h4 class="mb-4">Habr - {{ habr.ratio }} <a href="#"
@@ -36,7 +49,6 @@
             <span><i class="fas fa-caret-square-down" id="show_habr"></i></span>
             <span id='hide_habr'></span></a></h4>
         <hr class="my-4">
-
         <div id="hidden_habr" style="display: block;">
             {% include 'main/results/habr.html' %}
         </div>
