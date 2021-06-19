@@ -1,0 +1,68 @@
+<div class="row g-3">
+    <div class="col-sm-6">
+        {% if linkedin.headline %}
+            <p class="lead">Обо мне: <i>{{ linkedin.headline }}</i></p>
+        {% endif %}
+        {% if linkedin.summary %}
+            <p class="lead">Общие сведения: <i>{{ linkedin.summary }}</i></p>
+        {% endif %}
+        <p class="lead">Фолловеры: {{ linkedin.followersCount }}</p>
+        {% if linkedin.languages %}
+            <p class="lead">Языки:</p>
+            <ul>
+                {% for lang in linkedin.languages %}
+                    <li>{{ lang.name }} - {{ lang.proficiency }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if linkedin.email_address %}
+            <p class="lead">Email: {{ linkedin.email_address }}</p>
+        {% endif %}
+        {% if linkedin.websites %}
+            <ul>
+                {% for site in linkedin.websites %}
+                    <li>{{ site }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    <div class="col-sm-6">
+        {% if linkedin.experience %}
+            <p class="lead">Места работы:</p>
+            <ul>
+                {% for ed in linkedin.experience %}
+                    <li>{{ ed.companyName }} {% if ed.timePeriod %}({{ ed.timePeriod.startDate.year }} -
+                        {% if ed.timePeriod.endDate %}{{ ed.timePeriod.endDate.year }}{% else %}???{% endif %}
+                        ){% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if linkedin.education %}
+            <p class="lead">Образование:</p>
+            <ul>
+                {% for ed in linkedin.education %}
+                    <li>{{ ed.schoolName }} {% if ed.timePeriod %}({{ ed.timePeriod.startDate.year }} -
+                        {% if ed.timePeriod.endDate %}{{ ed.timePeriod.endDate.year }}{% else %}???{% endif %}
+                        ){% endif %}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if linkedin.certifications %}
+            <p class="lead">Сертификаты: </p>
+            <ul>
+                {% for ed in linkedin.certifications %}
+                    <li>{{ ed.name }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if linkedin.skills %}
+            <p class="lead">Навыки:</p>
+            <div class="row">
+                <div class="col-sm-6" id="skill-list-1"></div>
+                <div class="col-sm-6" id="skill-list-2"></div>
+            </div>
+            {% include 'main/scripts/linkedin_skills.html' %}
+        {% endif %}
+    </div>
+</div>

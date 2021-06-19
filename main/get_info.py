@@ -5,10 +5,10 @@ class Data:
     @staticmethod
     def get_habr_main(habr):
         return {
-            'karma': habr['stats']['karma'],
-            'rating': habr['stats']['rating'],
-            'followers': habr['stats']['followers'],
-            'following': habr['stats']['following'],
+            'karma': str(habr['stats']['karma']) if habr['stats'] else 0,
+            'rating': str(habr['stats']['rating']) if habr['stats'] else 0,
+            'followers': str(habr['stats']['followers']) if habr['stats'] else 0,
+            'following': habr['stats']['following'] if habr['stats'] else 0,
             'work_name': habr['work']['name'] if habr['work'] else '',
             'nickname': habr['nickname'],
             'url': habr['url']

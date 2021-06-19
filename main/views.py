@@ -6,8 +6,11 @@ from datetime import date
 from parsing.habr.user import User
 from django.http import HttpResponse
 from sher import run
+from linkedin_api import Linkedin
 import urllib.parse
 import pdfcrowd
+from django.template import RequestContext
+import json
 
 
 def index(request):
@@ -62,17 +65,18 @@ def result(request):
         urls = CheckUrl(getting_sites(sites), sherlock).check()
         github = add_github(urls)
         habr = add_habr(urls)
+        linkedin = add_linkedin(urls)
         info['ratio'] = 0
         if github:
             info['ratio'] += github['ratio'] * 0.6
         if habr:
             info['ratio'] += habr['ratio'] * 0.4
         info['ratio'] = round(info['ratio'], 2)
-
         data = {
             'form': form,
             'habr': habr,
             'github': github,
+            'linkedin': linkedin,
             'vk': user_vk[0] if user_vk else None,
             'sherlock': sherlock,
             'info': info,
@@ -90,6 +94,21 @@ def result(request):
         info['convert_url'] = convert_url[:-1]
         return render(request, 'main/result.html', data)
     return redirect('/')
+
+
+def add_linkedin(urls):
+    if 'www.linkedin.com' in urls:
+        api_link = Linkedin('+79065350750', '1qaz2wsx3edC')
+        nickname = urls['www.linkedin.com']
+        profile = api_link.get_profile(nickname)
+        contact = api_link.get_profile_contact_info(nickname)
+        network = api_link.get_profile_network_info(nickname)
+        linkedin = profile | contact | network
+        linkedin['skills'] = api_link.get_profile_skills(nickname)
+        # linkedin['updates'] = api_link.get_profile_updates(nickname, max_results=2)
+        # print(json.dumps(linkedin['updates']))
+        return linkedin
+    return None
 
 
 def add_habr(urls):
@@ -110,38 +129,34 @@ def add_habr(urls):
         habr = {
             'main': Data.get_habr_main(user),
             'contributions': Data.get_habr_contributions(user),
-            'posts': posts
+            'posts': posts,
+            'avg_values': dict((k, str(v)) for k, v in avg_values.items())
         }
-        habr['avgs'] = Data.get_habr_avg(posts, habr['contributions'])  # В виде чисел
-        habr['ratio'] = habr_evaluation(avg_values, habr)
+        avgs = Data.get_habr_avg(posts, habr['contributions'])
+        habr['avgs'] = dict((k, str(v)) for k,v in avgs.items())
+        habr['ratio'] = habr_evaluation(avg_values, habr, avgs)
         habr['analysis'] = {
             'karma': round(float(habr['main']['karma']) - avg_values['karma'], 2),
             'rating': round(float(habr['main']['rating']) - avg_values['rating'], 2),
             'followers': int(float(habr['main']['followers']) - avg_values['followers']),
-            'contribs': round(habr['avgs']['contribs'] - avg_values['contribs'], 2),
-            'voitings': round(habr['avgs']['voitings'] - avg_values['voitings'], 2),
-            'favs_count': round(habr['avgs']['favs_count'] - avg_values['favs_count'], 2),
-            'views': str(round(habr['avgs']['views'] - avg_values['views'], 2)) + 'k',
-        }
-        habr['avgs'] = {  # В виде строки
-            'voitings': str(habr['avgs']['voitings']).replace(',', '.'),
-            'favs_count': str(habr['avgs']['favs_count']).replace(',', '.'),
-            'views': str(habr['avgs']['views']) + "k",
-            'contribs': habr['avgs']['contribs']
+            'contribs': round(avgs['contribs'] - avg_values['contribs'], 2),
+            'voitings': round(avgs['voitings'] - avg_values['voitings'], 2),
+            'favs_count': round(avgs['favs_count'] - avg_values['favs_count'], 2),
+            'views': str(round(avgs['views'] - avg_values['views'], 2)) + 'k',
         }
         return habr
     return None
 
 
-def habr_evaluation(habr_avg_values, habr):
+def habr_evaluation(habr_avg_values, habr, avgs):
     # Metrics ratio HABR
     karma = 100 * float(habr['main']['karma']) / habr_avg_values['karma'] * 0.2
     rating = 100 * float(habr['main']['rating']) / habr_avg_values['rating'] * 0.2
     followers = 100 * float(habr['main']['followers']) / habr_avg_values['followers'] * 0.1
-    contribs = 100 * habr['avgs']['contribs'] / habr_avg_values['contribs'] * 0.175
-    voitings = 100 * habr['avgs']['voitings'] / habr_avg_values['voitings'] * 0.1
-    favs_count = 100 * habr['avgs']['favs_count'] / habr_avg_values['favs_count'] * 0.1
-    views = 100 * habr['avgs']['views'] / habr_avg_values['views'] * 0.125
+    contribs = 100 * avgs['contribs'] / habr_avg_values['contribs'] * 0.175
+    voitings = 100 * avgs['voitings'] / habr_avg_values['voitings'] * 0.1
+    favs_count = 100 * avgs['favs_count'] / habr_avg_values['favs_count'] * 0.1
+    views = 100 * avgs['views'] / habr_avg_values['views'] * 0.125
     habr_ratio = {
         'karma': 20 if karma >= 20 else karma,
         'rating': 20 if rating >= 20 else rating,
@@ -171,11 +186,7 @@ def add_github(urls):
         user_repos = Data.get_git_userRepos(user)
         langs = Data.get_git_lang(user)
         github = {
-            'avg_values': {
-                '2': avg_values['contr_y2'],
-                '1': avg_values['contr_y1'],
-                '0': avg_values['contr_y0']
-            },
+            'avg_values': avg_values,
             'data_lang': langs,
             'nick': user.nickname,
             'user_repos': user_repos,
@@ -252,3 +263,11 @@ def convert(request):
         return HttpResponse(why.getMessage(),
                             status=why.getCode(),
                             content_type='text/plain')
+
+
+def e_handler500(request):
+    return render(request, 'main/errors/500.html')
+
+
+def e_handler404(request, exception):
+    return render(request, 'main/errors/404.html')

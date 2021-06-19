@@ -1,0 +1,20 @@
+<script>
+    let skills = [];
+    {% for value in linkedin.skills %}
+        skills.push('{{ value.name }}');
+    {% endfor %}
+    let len = Object.keys(skills).length;
+    let ul_1 = document.createElement('ul');
+    let ul_2 = document.createElement('ul');
+    for (let j = 0; j < len; j++) {
+        let li = document.createElement('li');
+        li.innerHTML = skills[j];
+        if (j % 2 === 0) {
+            ul_1.appendChild(li);
+        } else {
+            ul_2.appendChild(li);
+        }
+    }
+    document.getElementById(`skill-list-1`).appendChild(ul_1);
+    document.getElementById(`skill-list-2`).appendChild(ul_2);
+</script>

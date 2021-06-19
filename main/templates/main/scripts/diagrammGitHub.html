@@ -2,14 +2,10 @@
     let ctx = document.getElementById('lang_graph').getContext('2d');
     let lang_array = [];
     let data_array = [];
-</script>
 {% for key, value in github.data_lang.items %}
-    <script>
-        lang_array.push('{{ key }}');
-        data_array.push(parseInt('{{ value }}', 10));
-    </script>
+    lang_array.push('{{ key }}');
+    data_array.push(parseInt('{{ value }}', 10));
 {% endfor %}
-<script>
     let lang_graph = new Chart(ctx, {
         type: 'pie',
         data: {
