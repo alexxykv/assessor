@@ -42,8 +42,7 @@ class MainForm(ModelForm):
                 'class': 'form-control',
                 'placeholder': '01.01.1999',
                 'type': 'date',
-                'min': '1900-01-01',
-                'value': '1900-01-01'
+                'min': '1900-01-01'
             }),
             'city': TextInput(attrs={
                 'class': 'form-control',
