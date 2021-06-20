@@ -57,7 +57,7 @@
     {% endif %}
     <!-- END HABR -->
     <!-- GITHUB -->
-    {% if github != None %}
+    {% if github %}
         <h4 class="mb-4">Github - {{ github.ratio }} <a href="#"
                                                         onclick="show('show_github', 'hide_github'); view('hidden_github'); return false">
             <span><i class="fas fa-caret-square-down" id="show_github"></i></span>
@@ -71,6 +71,22 @@
         <hr class="my-2">
     {% endif %}
     <!-- END GITHUB -->
+    <!-- CODEFORCES -->
+    {% if codeforces %}
+        <h4 class="mb-4">Codeforces <a href="#"
+                                                        onclick="show('show_codeforces', 'hide_codeforces'); view('hidden_codeforces'); return false">
+            <span><i class="fas fa-caret-square-down" id="show_codeforces"></i></span>
+            <span id="hide_codeforces"></span>
+        </a>
+        </h4>
+        <hr class="my-4">
+        <div id="hidden_codeforces" style="display: block;">
+            {% include 'main/results/codeforces.html' %}
+        </div>
+        <hr class="my-2">
+    {% endif %}
+    <!-- END CODEFORCES -->
+
     {% include 'main/scripts/show_hide.html' %}
     <!-- SHERLOCK -->
     {% if sherlock %}

@@ -1,0 +1,16 @@
+<div class="row g-3">
+    <div class="col-sm-6">
+        <p class="lead">Rating: {{ codeforces.user.rating }}</p>
+        <p class="lead">Max rating: {{ codeforces.user.maxRating }}</p>
+        <p class="lead">Contribution: {{ codeforces.user.contribution }}</p>
+        <p class="lead">Rank: {{ codeforces.user.rank }}</p>
+        <p class="lead">Max rank: {{ codeforces.user.maxRank }}</p>
+    </div><div class="col-sm-6">
+        <p class="lead">Blogs:</p>
+        <ul>
+            {% for blog in codeforces.blogs %}
+                <li>{{ blog.title }} - {{ blog.rating }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

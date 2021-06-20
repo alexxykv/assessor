@@ -7,10 +7,9 @@ from parsing.habr.user import User
 from django.http import HttpResponse
 from sher import run
 from linkedin_api import Linkedin
+from parsing.codeforces.codeforces import Codeforce
 import urllib.parse
 import pdfcrowd
-from django.template import RequestContext
-import json
 
 
 def index(request):
@@ -61,7 +60,18 @@ def result(request):
             flag = True
     if flag:
         user_vk = Data.get_vk(info)
-        sherlock = run.search(user_vk[0]['screen_name']) if user_vk else None
+        sherlock = None
+        codeforces = None
+        if user_vk:
+            vk_nickname = user_vk[0]['screen_name']
+            sherlock = run.search(vk_nickname)
+            code = Codeforce()
+            code_user = code.user_info([vk_nickname])
+            if len(code_user) != 0:
+                codeforces = {
+                    'user': code_user[0],
+                    'blogs': code.user_blog_entries(vk_nickname)
+                }
         urls = CheckUrl(getting_sites(sites), sherlock).check()
         github = add_github(urls)
         habr = add_habr(urls)
@@ -77,6 +87,7 @@ def result(request):
             'habr': habr,
             'github': github,
             'linkedin': linkedin,
+            'codeforces': codeforces,
             'vk': user_vk[0] if user_vk else None,
             'sherlock': sherlock,
             'info': info,
@@ -113,7 +124,7 @@ def add_linkedin(urls):
 
 def add_habr(urls):
     if 'habr.com' in urls:
-        # Mereics
+        # Metrics
         avg_values = {
             'karma': 46.6,
             'rating': 87.6,
