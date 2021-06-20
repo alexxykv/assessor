@@ -80,7 +80,7 @@ def result(request):
             'vk': user_vk[0] if user_vk else None,
             'sherlock': sherlock,
             'info': info,
-            'photo': user_vk[0]['photo_200'] if user_vk else '/static/main/img/anon.png'
+            'photo': user_vk[0]['photo_200'] if user_vk else None
         }
         convert_url = '/result/convert?'
         for item in info.items():
