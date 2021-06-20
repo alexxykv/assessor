@@ -10,7 +10,8 @@ class CheckUrl:
         self.sherlock = sherlock
 
     def check(self):
-        pars_dict = {'github.com': self.github, 'habr.com': self.habr, 'www.linkedin.com': self.linkedin}
+        pars_dict = {'github.com': self.github, 'habr.com': self.habr, 'www.linkedin.com': self.linkedin,
+                     'codeforces.com': self.codeforces}
         for i in range(0, len(self.sites)):
             self.url = self.sites[i]
             domen = re.findall(r'//([^/]*\.[^/:]+)', self.url)[0]
@@ -23,6 +24,11 @@ class CheckUrl:
                 if i[0] == 'habr' and 'habr.com' not in self.result:
                     self.result['habr.com'] = pars_dict['habr.com']()
         return self.result
+
+    def codeforces(self):
+        url = (self.url + '/').replace('//', '/')
+        nick = url.split('/')[-2]
+        return nick
 
     def linkedin(self):
         url = (self.url + '/').replace('//', '/')

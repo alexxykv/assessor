@@ -30,7 +30,7 @@
         {% include 'main/scripts/habr_avg_graph.html' %}
     </div>
     <div class="col-sm-6">
-        <p class="lead">Место работы: {{ habr.main.work_name }}</p>
+        <p class="lead">Место работы: {% if habr.main.work_name %}{{ habr.main.work_name }}{% else %}Неизвестно{% endif %}</p>
         <h4><p class="lead">Среднее по статьям:
             <p class="lead">- Voitings: {{ habr.avgs.voitings }}
                 {% if habr.analysis.voitings >= 0 %}
