@@ -1,5 +1,6 @@
 import requests
 import json
+from utils import drop_tags
 
 
 class Codeforce:
@@ -39,7 +40,11 @@ class Codeforce:
             return result
         elif status == 'FAILED':
             comment = dict['comment']
-            raise HandleNotFound(comment)
+
+            if comment.startswith('handles'):
+                raise HandleNotFound(comment)
+            elif comment.startswith('blogEntryId'):
+                raise BlogEntryIdNotFound(comment)
 
     def user_info(self, handles: list):
         """
@@ -95,6 +100,45 @@ class Codeforce:
         except HandleNotFound:
             return []
 
+    def blog_entry_view(self, blog_entry_id):
+        """
+        Returns a blog entry.
+
+        `blog_entry_id`: Id of the blog entry.
+        """
+
+        method_name = 'blogEntry.view'
+        params = {
+            'blogEntryId': blog_entry_id,
+        }
+
+        try:
+            res = self._get(method_name, params)
+
+            # drop tag <p>...</p>
+            title = res['title']
+            res['title'] = drop_tags(title)
+            # add url to result
+            res['url'] = self.get_blog_url(blog_entry_id)
+
+            return res
+        except HandleNotFound:
+            return []
+
+    def get_blog_url(self, blog_entry_id):
+        """
+        Returns a link to the blog.
+
+        `blog_entry_id`: Id of the blog entry.
+        """
+
+        main_url = 'https://codeforces.com/blog/entry/'
+        blog_url = main_url + str(blog_entry_id)
+
+        return blog_url
 
 class HandleNotFound(Exception):
+    pass
+
+class BlogEntryIdNotFound(Exception):
     pass
