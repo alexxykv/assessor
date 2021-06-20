@@ -1,6 +1,6 @@
 import requests
 import json
-from utils import drop_tags
+from .utils import drop_tags
 
 
 class Codeforce:
@@ -84,6 +84,12 @@ class Codeforce:
 
         try:
             res = self._get(method_name, params)
+            # drop tag <p>...</p> and add blog url
+            for i in range(len(res)):
+                title = res[i]['title']
+                res[i]['title'] = drop_tags(title)
+                blog_entry_id = res[i]['id']
+                res[i]['url'] = self.get_blog_url(blog_entry_id)
             return res
         except HandleNotFound:
             return []

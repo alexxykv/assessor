@@ -1,5 +1,6 @@
 <div class="row g-3">
     <div class="col-sm-6">
+        <p class="lead">Nickname: <a href="{{ codeforces.user.url }}">{{ codeforces.user.handle }}</a></p>
         <p class="lead">Rating: {{ codeforces.user.rating }}</p>
         <p class="lead">Max rating: {{ codeforces.user.maxRating }}</p>
         <p class="lead">Contribution: {{ codeforces.user.contribution }}</p>
@@ -9,7 +10,7 @@
         <p class="lead">Blogs:</p>
         <ul>
             {% for blog in codeforces.blogs %}
-                <li>{{ blog.title }} - {{ blog.rating }}</li>
+                <li><a style="text-decoration: none;" href="{{ blog.url }}">{{ blog.title }}</a> - <i>{{ blog.rating }}</i> (rating)</li>
             {% endfor %}
         </ul>
     </div>

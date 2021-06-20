@@ -20,11 +20,19 @@
                 Неизвестно{% endif %}</span></h5>
             <h5>Город: <span class="lead">{% if info.city %}{{ info.city }}{% else %}
                 Неизвестно{% endif %}</span></h5>
-            <h5>Общая оценка: {{ info.ratio }}</h5>
+            {% if github %}
+                <h5>Оценка по github: {{ github.ratio }}</h5>
+            {% endif %}
+            {% if habr %}
+                <h5>Оценка по habr: {{ habr.ratio }}</h5>
+            {% endif %}
+
+
         </div>
         <div class="col">
             {% load static %}
-            <img src="{% if photo %}{{ photo }}{% else %}{% static 'main/img/anon.png' %}{% endif %}" alt="photo" style="width: 200px; height: 200px;">
+            <img src="{% if photo %}{{ photo }}{% else %}{% static 'main/img/anon.png' %}{% endif %}" alt="photo"
+                 style="width: 200px; height: 200px;">
         </div>
         <div class="col"></div>
     </div>
@@ -32,15 +40,15 @@
     <!-- END MAIN INFO -->
     <!-- LINKEDIN -->
     {% if linkedin %}
-    <h4 class="mb-4">LinkedIn <a href="#"
-                                        onclick="show('show_linkedin', 'hide_linkedin'); view('hidden_linkedin'); return false">
-        <span><i class="fas fa-caret-square-down" id="show_linkedin"></i></span>
-        <span id='hide_linkedin'></span></a></h4>
-    <hr class="my-4">
-    <div id="hidden_linkedin" style="display: block;">
-        {% include 'main/results/linkedin.html' %}
-    </div>
-    <hr class="my-4">
+        <h4 class="mb-4">LinkedIn <a href="#"
+                                     onclick="show('show_linkedin', 'hide_linkedin'); view('hidden_linkedin'); return false">
+            <span><i class="fas fa-caret-square-down" id="show_linkedin"></i></span>
+            <span id='hide_linkedin'></span></a></h4>
+        <hr class="my-4">
+        <div id="hidden_linkedin" style="display: block;">
+            {% include 'main/results/linkedin.html' %}
+        </div>
+        <hr class="my-4">
     {% endif %}
     <!-- END LINKEDIN -->
     <!-- HABR -->
@@ -74,7 +82,7 @@
     <!-- CODEFORCES -->
     {% if codeforces %}
         <h4 class="mb-4">Codeforces <a href="#"
-                                                        onclick="show('show_codeforces', 'hide_codeforces'); view('hidden_codeforces'); return false">
+                                       onclick="show('show_codeforces', 'hide_codeforces'); view('hidden_codeforces'); return false">
             <span><i class="fas fa-caret-square-down" id="show_codeforces"></i></span>
             <span id="hide_codeforces"></span>
         </a>

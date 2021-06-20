@@ -61,27 +61,14 @@ def result(request):
     if flag:
         user_vk = Data.get_vk(info)
         sherlock = None
-        codeforces = None
         if user_vk:
             vk_nickname = user_vk[0]['screen_name']
             sherlock = run.search(vk_nickname)
-            code = Codeforce()
-            code_user = code.user_info([vk_nickname])
-            if len(code_user) != 0:
-                codeforces = {
-                    'user': code_user[0],
-                    'blogs': code.user_blog_entries(vk_nickname)
-                }
         urls = CheckUrl(getting_sites(sites), sherlock).check()
         github = add_github(urls)
         habr = add_habr(urls)
-        linkedin = add_linkedin(urls)
-        info['ratio'] = 0
-        if github:
-            info['ratio'] += github['ratio'] * 0.6
-        if habr:
-            info['ratio'] += habr['ratio'] * 0.4
-        info['ratio'] = round(info['ratio'], 2)
+        linkedin = add_linkedin(urls, info)
+        codeforces = add_codeforces(urls, user_vk)
         data = {
             'form': form,
             'habr': habr,
@@ -107,15 +94,36 @@ def result(request):
     return redirect('/')
 
 
-def add_linkedin(urls):
+def add_codeforces(urls, user_vk):
+    if 'codeforces.com' in urls:
+        nick = urls['codeforces.com']
+    elif user_vk:
+        nick = user_vk[0]['screen_name']
+    else:
+        return None
+    code = Codeforce()
+    code_user = code.user_info([nick])
+    if len(code_user) != 0:
+        return {
+            'user': code_user[0],
+            'blogs': code.user_blog_entries(nick)
+        }
+
+
+def add_linkedin(urls, info):
+    api_link = Linkedin('+79065350750', '1qaz2wsx3edC')
     if 'www.linkedin.com' in urls:
-        api_link = Linkedin('+79065350750', '1qaz2wsx3edC')
         nickname = urls['www.linkedin.com']
+    else:
+        linkedin = api_link.search_people(keyword_first_name=info['first_name'], keyword_last_name=info['last_name'])
+        nickname = linkedin[0]['public_id'] if linkedin else None
+    if nickname:
         profile = api_link.get_profile(nickname)
         contact = api_link.get_profile_contact_info(nickname)
         network = api_link.get_profile_network_info(nickname)
         linkedin = profile | contact | network
         linkedin['skills'] = api_link.get_profile_skills(nickname)
+        linkedin['url'] = 'https://www.linkedin.com/in/' + linkedin['profile_id']
         # linkedin['updates'] = api_link.get_profile_updates(nickname, max_results=2)
         # print(json.dumps(linkedin['updates']))
         return linkedin
