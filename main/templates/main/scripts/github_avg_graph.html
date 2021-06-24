@@ -14,10 +14,10 @@
             datasets: [{
                 label: 'Result',
                 data: [
-                    {{ github.followers }},
-                    {{ github.stars }},
-                    {{ github.count_lang }},
-                    {{ github.count_all_repos }},
+                    {{ github.user.followers }},
+                    {{ github.user.stars }},
+                    {{ github.count.languages }},
+                    {{ github.count.all_repos }},
                     {{ github.contributions_year.2 }},
                     {{ github.contributions_year.1 }},
                     {{ github.contributions_year.0 }}],

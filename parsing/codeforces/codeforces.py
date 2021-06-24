@@ -16,7 +16,7 @@ class Codeforce:
     def __init__(self):
         """Initialization"""
         
-        self.session = requests.Session();
+        self.session = requests.Session()
         self.session.headers = {
             'User-Agent': Codeforce.USER_AGENT,
         }

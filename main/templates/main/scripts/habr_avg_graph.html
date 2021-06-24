@@ -1,4 +1,5 @@
 <script>
+    let views = '{{ habr.avgs.views }}'.replace('k', '');
     const habr_config = {
         type: 'bar',
         data: {
@@ -14,13 +15,13 @@
             datasets: [{
                 label: 'Result',
                 data: [
-                    {{ habr.main.karma }},
-                    {{ habr.main.rating }},
-                    {{ habr.main.followers }},
+                    {{ habr.main.stats.karma }},
+                    {{ habr.main.stats.rating }},
+                    {{ habr.main.stats.followers }},
                     {{ habr.avgs.contribs }},
                     {{ habr.avgs.voitings }},
                     {{ habr.avgs.favs_count }},
-                    {{ habr.avgs.views }}],
+                    views],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(255, 159, 64, 0.2)',
@@ -49,7 +50,8 @@
                     {{ habr.avg_values.contribs }},
                     {{ habr.avg_values.voitings }},
                     {{ habr.avg_values.favs_count }},
-                    {{ habr.avg_values.views }}],
+                    {{ habr.avg_values.views }}
+            ],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(255, 159, 64, 0.2)',

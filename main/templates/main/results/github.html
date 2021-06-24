@@ -1,24 +1,24 @@
 <div class="row g-3">
     <div class="col-sm-6">
-        <p class="lead">Nickname: <a href="{{ github.profile_url }}">{{ github.nick }}</a></p>
-        <p class="lead">Фолловеры: {{ github.followers }}
+        <p class="lead">Nickname: <a href="{{ github.profile_url }}">{{ github.user.nickname}}</a></p>
+        <p class="lead">Фолловеры: {{ github.user.followers }}
             {% if github.analysis.followers >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ github.analysis.followers }}
         </p>
-        <p class="lead">Звезды в собственных репозиториях: {{ github.stars }}
+        <p class="lead">Звезды в собственных репозиториях: {{ github.user.stars }}
             {% if github.analysis.stars >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ github.analysis.stars }}
         </p>
-        <p class="lead">Количество языков: {{ github.count_lang }}
+        <p class="lead">Количество языков: {{ github.count.languages }}
             {% if github.analysis.count_lang >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ github.analysis.count_lang }}
         </p>
-        <p class="lead">Количество всех репозиториев: {{ github.count_all_repos }}
+        <p class="lead">Количество всех репозиториев: {{ github.count.all_repos }}
             {% if github.analysis.count_all_repos >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ github.analysis.count_all_repos }}
         </p>
-        <p class="lead">Кол. форков чужих репозиториев: {{ github.count_fork }}</p>
-        <p class="lead">Кол. собственных репозиториев: {{ github.count_user_repos }}</p>
+        <p class="lead">Кол. форков чужих репозиториев: {{ github.count.forked_repos }}</p>
+        <p class="lead">Кол. собственных репозиториев: {{ github.count.user_repos }}</p>
         <p class="lead">Среднее количество вкладов за месяц: </p>
         <ul>
             <li>2021 г. - {{ github.contributions_year.0 }} вклад(а/ов)</li>
@@ -27,7 +27,7 @@
         </ul>
         <p class="lead">Собственные репозитории: </p>
         <ul>
-            {% for i in github.user_repos %}
+            {% for i in github.user.user_repos %}
                 <li><a href="{{ i.html_url }}">{{ i.name }}</a></li>
             {% endfor %}
         </ul>

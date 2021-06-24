@@ -1,79 +1,60 @@
-from vk_finder import finder
+import re
+from sher import run
 
 
-class Data:
-    @staticmethod
-    def get_habr_main(habr):
-        return {
-            'karma': str(habr['stats']['karma']) if habr['stats'] else 0,
-            'rating': str(habr['stats']['rating']) if habr['stats'] else 0,
-            'followers': str(habr['stats']['followers']) if habr['stats'] else 0,
-            'following': habr['stats']['following'] if habr['stats'] else 0,
-            'work_name': habr['work']['name'] if habr['work'] else '',
-            'nickname': habr['nickname'],
-            'url': habr['url']
+def get_screen_names(urls: list, vk):
+    """ Getting screen names from urls and VK """
 
-        }
+    screen_names = {'vk.com': vk['screen_name']} if vk else {}
+    for url in urls:
+        array = url.split('/')
+        domain = re.findall(r'//([^/]*\.[^/:]+)', url)[0]
+        if url[len(url) - 1] == '/':
+            screen_names[domain] = array[-2]
+        else:
+            screen_names[domain] = array[-1]
+    return screen_names
 
-    @staticmethod
-    def get_habr_contributions(habr):
-        contributions = []
-        for i in habr['contribution']:
-            contributions.append(
-                {
-                    'title': i['name'],
-                    'url': i['url'],
-                    'value': i['value']
-                }
-            )
-        return contributions
 
-    @staticmethod
-    def get_habr_avg(habr_posts, contributions):
-        lenght = len(habr_posts)
-        lenght_contribs = len(contributions)
-        avg_voitings = 0
-        avg_favs_count = 0
-        avg_views = 0
-        avg_contribs = 0
-        avgs = {
-            'voitings': 0,
-            'favs_count': 0,
-            'views': 0,
-            'contribs': 0
-        }
-        if lenght != 0:
-            for post in habr_posts:
-                views = post['views']
-                if views[len(post['views']) - 1] == 'k':
-                    views = float(post['views'].replace('k', ''))
-                else:
-                    views = float(post['views']) / 1000
-                avg_voitings += int(post['voitings'].replace('–', '-'))
-                avg_favs_count += int(post['favs_count'])
-                avg_views += views
-            avgs = {
-                'voitings': round(avg_voitings / lenght, 1),
-                'favs_count': round(avg_favs_count / lenght, 1),
-                'views': round(avg_views / lenght, 1),
-            }
-        if lenght_contribs != 0:
-            for i in contributions:
-                avg_contribs += float(i['value'])
-            avgs['contribs'] = round(avg_contribs / lenght_contribs, 1)
-        return avgs
+def get_info(request, fields):
+    """ Getting the transmitted data from requests """
 
-    @staticmethod
-    def get_git_lang(user):
-        data_lang = {}
-        for k,i in user.languages.items():
-            data_lang[k] = i
-        return data_lang
+    info = {}
+    for field in fields:
+        value = request.get(field)
+        if value:
+            info[field] = value
+    return info
 
-    @staticmethod
-    def get_git_userRepos(user):
-        return user.user_repos
 
-    @staticmethod
-    def get_vk(info):
-        return finder.find(info)
+def get_urls(request):
+    """ Getting urls """
+
+    urls = []
+    for i in range(1, 11):
+        value = request.get(f'site_{i}')
+        if value:
+            urls.append(value)
+
+    return urls
+
+
+def get_convert_url(info, urls):
+    convert_url = '/result/convert?'
+    for field, value in info.items():
+        convert_url += field + '=' + value + '&'
+
+    for i, url in enumerate(urls):
+        convert_url += f'site_{i + 1}' + '=' + url + '&'
+
+    return convert_url[:-1]
+
+
+def sherlock(screen_names):
+    """ Finding user profile in another sites """
+
+    res = {}
+    for nick in screen_names.values():
+        res[nick] = run.search(nick)
+
+    return res

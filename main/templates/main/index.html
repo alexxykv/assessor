@@ -15,12 +15,12 @@
             <div class="row g-3">
                 <div class="col-sm-4">
                     <label for="middleName" class="form-label">Фамилия (обязательно)</label>
-                    {{ form.lastName }}
+                    {{ form.last_name }}
                 </div>
 
                 <div class="col-sm-4">
                     <label for="firstName" class="form-label">Имя (обязательно)</label>
-                    {{ form.firstName }}
+                    {{ form.first_name }}
                 </div>
 
                 <div class="col-sm-4">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-4">
                     <label for="phone_number" class="form-label">Телефон</label>
-                    {{ form.phone_number }}
+                    {{ form.phone }}
                     <script>
                         $('.mask-phone').mask('+7 (999) 999-99-99');
                     </script>

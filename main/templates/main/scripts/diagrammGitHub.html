@@ -2,7 +2,7 @@
     let ctx = document.getElementById('lang_graph').getContext('2d');
     let lang_array = [];
     let data_array = [];
-{% for key, value in github.data_lang.items %}
+{% for key, value in github.user.languages.items %}
     lang_array.push('{{ key }}');
     data_array.push(parseInt('{{ value }}', 10));
 {% endfor %}

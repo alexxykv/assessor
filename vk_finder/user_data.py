@@ -11,13 +11,14 @@ class UserData:
         self.first_name = data['first_name']
         self.last_name = data['last_name']
 
-        date_birth = data['date_birth']
+        date_birth = data.get('date_birth')
         if date_birth:
-            self.birth_day = date_birth.timetuple()[2]
-            self.birth_month = date_birth.timetuple()[1]
-            self.birth_year = date_birth.timetuple()[0]
+            date_birth = date_birth.split('-')
+            self.birth_day = date_birth[2]
+            self.birth_month = date_birth[1]
+            self.birth_year = date_birth[0]
 
-        city = data['city']
+        city = data.get('city')
         if city:
             self.city = Database.get_city_id(city)
         

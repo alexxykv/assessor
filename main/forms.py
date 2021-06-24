@@ -6,11 +6,11 @@ class MainForm(ModelForm):
     class Meta:
         model = Main
         fields = [
-            'firstName',
-            'lastName',
+            'first_name',
+            'last_name',
             'patronymic',
             'date_birth',
-            'phone_number',
+            'phone',
             'city',
             'email',
             'site_1',
@@ -26,11 +26,11 @@ class MainForm(ModelForm):
         ]
 
         widgets = {
-            'firstName': TextInput(attrs={
+            'first_name': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Иван'
             }),
-            'lastName': TextInput(attrs={
+            'last_name': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Иванов'
             }),
@@ -48,7 +48,7 @@ class MainForm(ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Москва'
             }),
-            'phone_number': TextInput(attrs={
+            'phone': TextInput(attrs={
                 'class': 'form-control mask-phone',
                 'placeholder': '+7 (123) 456-23-12'
             }),
