@@ -41,7 +41,7 @@ class Codeforce:
         elif status == 'FAILED':
             comment = dict['comment']
 
-            if comment.startswith('handles'):
+            if comment.startswith('handle'):
                 raise HandleNotFound(comment)
             elif comment.startswith('blogEntryId'):
                 raise BlogEntryIdNotFound(comment)
