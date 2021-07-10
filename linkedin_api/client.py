@@ -3,6 +3,8 @@ import logging
 from linkedin_api.cookie_repository import CookieRepository
 from bs4 import BeautifulSoup
 import json
+import os
+
 
 logger = logging.getLogger(__name__)
 
@@ -52,9 +54,10 @@ class Client(object):
     def __init__(
         self, *, debug=False, refresh_cookies=False, proxies={}, cookies_dir=None
     ):
+        proxy = os.environ.get('PROXY')
         proxies = {
-            'http': 'http://LoHbBW:dXrNPm@217.29.53.206:27796/',
-            'https': 'http://LoHbBW:dXrNPm@217.29.53.206:27796/',
+            'http': proxy,
+            'https': proxy,
         }
         self.session = requests.session()
         self.session.proxies.update(proxies)
