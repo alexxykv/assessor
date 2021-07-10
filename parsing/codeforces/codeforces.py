@@ -16,7 +16,7 @@ class Codeforce:
     def __init__(self):
         """Initialization"""
         
-        self.session = requests.Session();
+        self.session = requests.Session()
         self.session.headers = {
             'User-Agent': Codeforce.USER_AGENT,
         }
@@ -41,7 +41,7 @@ class Codeforce:
         elif status == 'FAILED':
             comment = dict['comment']
 
-            if comment.startswith('handles'):
+            if comment.startswith('handle'):
                 raise HandleNotFound(comment)
             elif comment.startswith('blogEntryId'):
                 raise BlogEntryIdNotFound(comment)

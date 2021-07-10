@@ -31,7 +31,7 @@
         </div>
         <div class="col">
             {% load static %}
-            <img src="{% if photo %}{{ photo }}{% else %}{% static 'main/img/anon.png' %}{% endif %}" alt="photo"
+            <img src="{% if vk.photo_200 %}{{ vk.photo_200 }}{% else %}{% static 'main/img/anon.png' %}{% endif %}" alt="photo"
                  style="width: 200px; height: 200px;">
         </div>
         <div class="col"></div>
@@ -106,5 +106,5 @@
         <hr class="my-2">
     {% endif %}
     <!-- END SHERLOCK -->
-    <input class="btn btn-success" type="button" value="PDF" onClick='window.location="{{ info.convert_url }}"'>
+    <input class="btn btn-success" type="button" value="PDF" onClick='window.location="{{ to_pdf }}"'>
 {% endblock %}

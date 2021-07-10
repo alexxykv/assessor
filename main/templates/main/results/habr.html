@@ -1,19 +1,19 @@
 <div class="row g-3">
     <div class="col-sm-6">
         <p class="lead">Nickname: <a href="{{ habr.main.url }}">{{ habr.main.nickname }}</a></p>
-        <p class="lead">Карма: {{ habr.main.karma }}
+        <p class="lead">Карма: {{ habr.main.stats.karma }}
             {% if habr.analysis.karma >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ habr.analysis.karma }}
         </p>
-        <p class="lead">Рейтинг: {{ habr.main.rating }}
+        <p class="lead">Рейтинг: {{ habr.main.stats.rating }}
             {% if habr.analysis.rating >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ habr.analysis.rating }}
         </p>
-        <p class="lead">Фолловеры: {{ habr.main.followers }}
+        <p class="lead">Фолловеры: {{ habr.main.stats.followers }}
             {% if habr.analysis.followers >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ habr.analysis.followers }}
         </p>
-        <p class="lead">Подписки на людей: {{ habr.main.following }}</p>
+        <p class="lead">Подписки на людей: {{ habr.main.stats.following }}</p>
         <p class="lead">Средний вклад: {{ habr.avgs.contribs }}
             {% if habr.analysis.contribs >= 0 %}
                 <i class="fas fa-angle-up" style="color: green"></i>{% else %}
@@ -22,15 +22,15 @@
         </p>
         <p class="lead">Вклады:</p>
         <ul>
-            {% for i in habr.contributions %}
-                <li><a href="{{ i.url }}">{{ i.title }}</a> - {{ i.value }} </li>
+            {% for i in habr.main.contribution %}
+                <li><a href="{{ i.url }}">{{ i.name }}</a> - {{ i.value }} </li>
             {% endfor %}
         </ul>
         <canvas id="habr_avg_graph"></canvas>
         {% include 'main/scripts/habr_avg_graph.html' %}
     </div>
     <div class="col-sm-6">
-        <p class="lead">Место работы: {% if habr.main.work_name %}{{ habr.main.work_name }}{% else %}Неизвестно{% endif %}</p>
+        <p class="lead">Место работы: {% if habr.main.work.name %}{{ habr.main.work.name }}{% else %}Неизвестно{% endif %}</p>
         <h4><p class="lead">Среднее по статьям:
             <p class="lead">- Voitings: {{ habr.avgs.voitings }}
                 {% if habr.analysis.voitings >= 0 %}
@@ -44,7 +44,7 @@
                     <i class="fas fa-angle-down"
                        style="color: red"></i>{% endif %} {{ habr.analysis.favs_count }}
             </p>
-            <p class="lead">- Views: {{ habr.avgs.views }}k
+            <p class="lead">- Views: {{ habr.avgs.views }}
                 {% if habr.analysis.views >= 0 %}
                     <i class="fas fa-angle-up" style="color: green"></i>{% else %}
                     <i class="fas fa-angle-down"
@@ -52,7 +52,7 @@
             </p>
             </p><i class="fas fa-arrows-alt-v"></i> {{ habr.avgs.voitings }} <i
                     class="fas fa-bookmark"></i> {{ habr.avgs.favs_count }} <i
-                    class="far fa-eye"></i> {{ habr.avgs.views }}k
+                    class="far fa-eye"></i> {{ habr.avgs.views }}
         </h4>
         <p class="lead">Статьи: </p>
         <ul>
