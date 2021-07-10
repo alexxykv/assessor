@@ -138,7 +138,6 @@ def add_habr(urls):
             'rating': 87.6,
             'followers': 20.0,
             'contribs': 123.2,
-            'voitings': 44.1,
             'favs_count': 59.2,
             'views': 14.6
         }
@@ -159,7 +158,6 @@ def add_habr(urls):
             'rating': round(float(habr['main']['rating']) - avg_values['rating'], 2),
             'followers': int(float(habr['main']['followers']) - avg_values['followers']),
             'contribs': round(avgs['contribs'] - avg_values['contribs'], 2),
-            'voitings': round(avgs['voitings'] - avg_values['voitings'], 2),
             'favs_count': round(avgs['favs_count'] - avg_values['favs_count'], 2),
             'views': str(round(avgs['views'] - avg_values['views'], 2)) + 'k',
         }
@@ -173,15 +171,13 @@ def habr_evaluation(habr_avg_values, habr, avgs):
     rating = 100 * float(habr['main']['rating']) / habr_avg_values['rating'] * 0.2
     followers = 100 * float(habr['main']['followers']) / habr_avg_values['followers'] * 0.1
     contribs = 100 * avgs['contribs'] / habr_avg_values['contribs'] * 0.175
-    voitings = 100 * avgs['voitings'] / habr_avg_values['voitings'] * 0.1
     favs_count = 100 * avgs['favs_count'] / habr_avg_values['favs_count'] * 0.1
     views = 100 * avgs['views'] / habr_avg_values['views'] * 0.125
     habr_ratio = {
-        'karma': 20 if karma >= 20 else karma,
-        'rating': 20 if rating >= 20 else rating,
+        'karma': 25 if karma >= 25 else karma,
+        'rating': 25 if rating >= 25 else rating,
         'followers': 10 if followers >= 10 else followers,
         'contribs': 17.5 if contribs >= 17.5 else contribs,
-        'voitings': 10 if voitings >= 10 else voitings,
         'favs_count': 10 if favs_count >= 10 else favs_count,
         'views': 12.5 if views >= 12.5 else views,
     }
@@ -270,7 +266,7 @@ def convert(request):
         req += str(item[0]) + '=' + str(item[1]) + '&'
     try:
         client = pdfcrowd.HtmlToPdfClient('dibiloid335', 'e6e7f5a5560117dc615690ca43311a71')
-        site = f'http://84.201.152.104:8000{req[:-1]}'
+        site = f'http://84.252.137.33:8000{req[:-1]}'
         response = HttpResponse(content_type='application/pdf')
         response['Cache-Control'] = 'max-age=0'
         response['Accept-Ranges'] = 'none'
