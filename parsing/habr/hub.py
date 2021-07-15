@@ -1,4 +1,4 @@
-from .utils import get_text, fetch
+from .utils import get_HTMLtext, fetch
 from .regex import RegexHub
 from .urls import URL
 
@@ -6,7 +6,7 @@ class Hub:
 
     def __init__(self, hub_name):
         self.url = URL.hub(hub_name)
-        text = get_text(self.url)
+        text = get_HTMLtext(self.url)
         self.hub_name = hub_name
         self.name = self._get_name(text)
         self.rating = self._get_rating(text)
@@ -27,7 +27,7 @@ class Hub:
     @staticmethod
     def get_authors(hub_name):
         url = URL.hub_authors(hub_name)
-        text = get_text(url)
+        text = get_HTMLtext(url)
         authors = fetch(RegexHub.AUTHORS, text)
         contribution = fetch(RegexHub.CONTRIB_AUTHORS, text)
         result = []
@@ -42,7 +42,7 @@ class Hub:
     @staticmethod
     def get_companies(hub_name):
         url = URL.hub_companies(hub_name)
-        text = get_text(url)
+        text = get_HTMLtext(url)
         companies = fetch(RegexHub.COMPANIES, text)
         contribution = fetch(RegexHub.CONTRIB_AUTHORS, text)
         result = []
@@ -69,14 +69,14 @@ class Hub:
     @staticmethod
     def get_top_posts(hub_name, page=1):
         url = URL.hub_top_posts(hub_name, page)
-        text = get_text(url)
+        text = get_HTMLtext(url)
         posts = Hub._get_posts(text)
         return posts
 
     @staticmethod
     def get_last_posts(hub_name, page=1):
         url = URL.hub_last_posts(hub_name, page)
-        text = get_text(url)
+        text = get_HTMLtext(url)
         posts = Hub._get_posts(text)
         return posts
     

@@ -6,8 +6,8 @@ class MainForm(ModelForm):
     class Meta:
         model = Main
         fields = [
-            'firstName',
-            'lastName',
+            'first_name',
+            'last_name',
             'patronymic',
             'date_birth',
             'phone_number',
@@ -26,11 +26,11 @@ class MainForm(ModelForm):
         ]
 
         widgets = {
-            'firstName': TextInput(attrs={
+            'first_name': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Иван'
             }),
-            'lastName': TextInput(attrs={
+            'last_name': TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Иванов'
             }),

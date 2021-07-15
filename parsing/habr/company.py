@@ -1,11 +1,11 @@
-from .utils import get_text, fetch
+from .utils import get_HTMLtext, fetch
 from .regex import RegexCompany
 from .urls import URL
 
 class Company:
     def __init__(self, company):
         self.url = URL.company(company)
-        text = get_text(self.url)
+        text = get_HTMLtext(self.url)
         self.company = company
         self.name = self._get_name(text)
         self.rating = self._get_rating(text)
@@ -51,7 +51,7 @@ class Company:
     @staticmethod
     def get_employes(company):
         url = URL.company_employes(company)
-        text = get_text(url)
+        text = get_HTMLtext(url)
         nicknames = fetch(RegexCompany.EMPLOYES_NICKNAME, text)
         ratings = fetch(RegexCompany.EMPLOYES_RATING, text)
         karma = fetch(RegexCompany.EMPLOYES_KARMA, text)
@@ -67,7 +67,7 @@ class Company:
     @staticmethod
     def get_subscribers(company, page=1):
         url = URL.company_subscribers(company, page)
-        text = get_text(url)
+        text = get_HTMLtext(url)
         nicknames = fetch(RegexCompany.SUBSCRIBER_NICKNAME, text)
         ratings = fetch(RegexCompany.SUBSCRIBER_RATING, text)
         karma = fetch(RegexCompany.SUBSCRIBER_KARMA, text)
@@ -83,7 +83,7 @@ class Company:
     @staticmethod
     def get_last_posts(company, page=1):
         url = URL.company_posts(company, page)
-        text = get_text(url)
+        text = get_HTMLtext(url)
         posts = fetch(RegexCompany.POSTS, text)
         result = []
         for i in range(len(posts)):

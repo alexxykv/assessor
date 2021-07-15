@@ -9,7 +9,7 @@ class GithubParser:
 
     def __init__(self, url):
         self.url = url
-        self.nickname = url.replace('\\', '/').split('/')[-1]
+        self.nickname = url.split('/')[-2]
         self.main_page = json.loads(rc.auth_get(f"https://api.github.com/users/{self.nickname}").text)
         self.all_repos = []
         self.user_repos = []

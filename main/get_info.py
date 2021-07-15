@@ -1,4 +1,4 @@
-from vk_finder import finder
+# from vk_finder import finder
 
 
 class Data:
