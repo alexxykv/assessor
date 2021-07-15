@@ -10,10 +10,40 @@ from linkedin_api import Linkedin
 from parsing.codeforces.codeforces import Codeforce
 import urllib.parse
 import pdfcrowd
-
+# 
+from .processor import Processor
+from .search import Search
+from .data_handler import DataHandler
+import json
+import os
+# 
 
 def index(request):
     return render(request, 'main/index.html', {'form': MainForm()})
+
+
+def result2(request):
+    if request.method == 'POST':
+        raw_data = dict(request.POST)
+
+    if request.method == 'GET':
+        raw_data = dict(request.GET)
+
+    data = DataHandler.process(raw_data)
+    # print(data)
+
+    search = Search(data)
+    search.run()
+
+    # print(data)
+
+    processor = Processor(data)
+    processor.run()
+
+    context = { 'info': data }
+    context.update(processor.result)
+
+    return render(request, 'main/result.html', context=context)
 
 
 def result(request):
@@ -48,8 +78,8 @@ def result(request):
         if form.is_valid():
             sites = [form.cleaned_data.get(f'site_{i}') for i in range(1, 11)]
             info = {
-                'first_name': form.cleaned_data.get("firstName"),
-                'last_name': form.cleaned_data.get("lastName"),
+                'first_name': form.cleaned_data.get("first_name"),
+                'last_name': form.cleaned_data.get("last_name"),
                 'patronymic': form.cleaned_data.get("patronymic"),
                 'date_birth': form.cleaned_data.get("date_birth"),
                 'city': form.cleaned_data.get("city"),
@@ -70,7 +100,7 @@ def result(request):
         linkedin = add_linkedin(urls, info)
         codeforces = add_codeforces(urls, user_vk)
         data = {
-            'form': form,
+            # 'form': form,
             'habr': habr,
             'github': github,
             'linkedin': linkedin,
@@ -90,6 +120,7 @@ def result(request):
                 convert_url += f'site_{i}' + '=' + site + '&'
             i += 1
         info['convert_url'] = convert_url[:-1]
+        print(json.dumps(data))
         return render(request, 'main/result.html', data)
     return redirect('/')
 
@@ -261,11 +292,13 @@ def getting_sites(data):
 
 
 def convert(request):
-    req = '/result?'
+    req = '/result2?'
     for item in request.GET.items():
         req += str(item[0]) + '=' + str(item[1]) + '&'
     try:
-        client = pdfcrowd.HtmlToPdfClient('dibiloid335', 'e6e7f5a5560117dc615690ca43311a71')
+        login = os.environ.get('PDFCROWD_LOGIN')
+        token = os.environ.get('PDFCROWD_TOKEN')
+        client = pdfcrowd.HtmlToPdfClient(login, token)
         site = f'http://84.252.137.33:8000{req[:-1]}'
         response = HttpResponse(content_type='application/pdf')
         response['Cache-Control'] = 'max-age=0'

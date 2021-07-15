@@ -1,20 +1,20 @@
 <div class="row g-3">
     <div class="col-sm-6">
-        <p class="lead">Nickname: <a href="{{ habr.main.url }}">{{ habr.main.nickname }}</a></p>
-        <p class="lead">Карма: {{ habr.main.karma }}
+        <p class="lead">Nickname: <a href="{{ habr.url }}">{{ habr.nickname }}</a></p>
+        <p class="lead">Карма: {{ habr.stats.karma }}
             {% if habr.analysis.karma >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ habr.analysis.karma }}
         </p>
-        <p class="lead">Рейтинг: {{ habr.main.rating }}
+        <p class="lead">Рейтинг: {{ habr.stats.rating }}
             {% if habr.analysis.rating >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ habr.analysis.rating }}
         </p>
-        <p class="lead">Фолловеры: {{ habr.main.followers }}
+        <p class="lead">Фолловеры: {{ habr.stats.followers }}
             {% if habr.analysis.followers >= 0 %}<i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down" style="color: red"></i>{% endif %} {{ habr.analysis.followers }}
         </p>
-        <p class="lead">Подписки на людей: {{ habr.main.following }}</p>
-        <p class="lead">Средний вклад: {{ habr.avgs.contribs }}
+        <p class="lead">Подписки на людей: {{ habr.stats.following }}</p>
+        <p class="lead">Средний вклад: {{ habr.avg_own.contribs }}
             {% if habr.analysis.contribs >= 0 %}
                 <i class="fas fa-angle-up" style="color: green"></i>{% else %}
                 <i class="fas fa-angle-down"
@@ -23,36 +23,36 @@
         <p class="lead">Вклады:</p>
         <ul>
             {% for i in habr.contributions %}
-                <li><a href="{{ i.url }}">{{ i.title }}</a> - {{ i.value }} </li>
+                <li><a href="{{ i.url }}">{{ i.name }}</a> - {{ i.value }} </li>
             {% endfor %}
         </ul>
         <canvas id="habr_avg_graph"></canvas>
         {% include 'main/scripts/habr_avg_graph.html' %}
     </div>
     <div class="col-sm-6">
-        <p class="lead">Место работы: {% if habr.main.work_name %}{{ habr.main.work_name }}{% else %}Неизвестно{% endif %}</p>
+        <p class="lead">Место работы: {% if habr.work.name %}{{ habr.work.name }}{% else %}Неизвестно{% endif %}</p>
         <h4><p class="lead">Среднее по статьям:
-            <p class="lead">- Voitings: {{ habr.avgs.voitings }}
+            <p class="lead">- Voitings: {{ habr.avg_own.voitings }}
                 {% if habr.analysis.voitings >= 0 %}
                     <i class="fas fa-angle-up" style="color: green"></i>{% else %}
                     <i class="fas fa-angle-down"
                        style="color: red"></i>{% endif %} {{ habr.analysis.voitings }}
             </p>
-            <p class="lead">- Favs: {{ habr.avgs.favs_count }}
+            <p class="lead">- Favs: {{ habr.avg_own.favs_count }}
                 {% if habr.analysis.favs_count >= 0 %}
                     <i class="fas fa-angle-up" style="color: green"></i>{% else %}
                     <i class="fas fa-angle-down"
                        style="color: red"></i>{% endif %} {{ habr.analysis.favs_count }}
             </p>
-            <p class="lead">- Views: {{ habr.avgs.views }}k
+            <p class="lead">- Views: {{ habr.avg_own.views }}k
                 {% if habr.analysis.views >= 0 %}
                     <i class="fas fa-angle-up" style="color: green"></i>{% else %}
                     <i class="fas fa-angle-down"
                        style="color: red"></i>{% endif %} {{ habr.analysis.views }}
             </p>
-            </p><i class="fas fa-arrows-alt-v"></i> {{ habr.avgs.voitings }} <i
-                    class="fas fa-bookmark"></i> {{ habr.avgs.favs_count }} <i
-                    class="far fa-eye"></i> {{ habr.avgs.views }}k
+            </p><i class="fas fa-arrows-alt-v"></i> {{ habr.avg_own.voitings }} <i
+                    class="fas fa-bookmark"></i> {{ habr.avg_own.favs_count }} <i
+                    class="far fa-eye"></i> {{ habr.avg_own.views }}k
         </h4>
         <p class="lead">Статьи: </p>
         <ul>

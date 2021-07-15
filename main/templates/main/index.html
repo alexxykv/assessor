@@ -14,36 +14,36 @@
             {% csrf_token %}
             <div class="row g-3">
                 <div class="col-sm-4">
-                    <label for="middleName" class="form-label">Фамилия (обязательно)</label>
-                    {{ form.lastName }}
+                    <label for="id_last_name" class="form-label">Фамилия (обязательно)</label>
+                    {{ form.last_name }}
                 </div>
 
                 <div class="col-sm-4">
-                    <label for="firstName" class="form-label">Имя (обязательно)</label>
-                    {{ form.firstName }}
+                    <label for="id_first_name" class="form-label">Имя (обязательно)</label>
+                    {{ form.first_name }}
                 </div>
 
                 <div class="col-sm-4">
-                    <label for="lastName" class="form-label">Отчество</label>
+                    <label for="id_patronymic" class="form-label">Отчество</label>
                     {{ form.patronymic }}
                 </div>
                 <div class="col-sm-4">
-                    <label for="date_birth" class="form-label">Дата рождения</label>
+                    <label for="id_date_birth" class="form-label">Дата рождения</label>
                     {{ form.date_birth }}
                 </div>
                 <div class="col-4">
-                    <label for="city" class="form-label">Город</label>
+                    <label for="id_city" class="form-label">Город</label>
                     {{ form.city }}
                 </div>
                 <div class="col-4">
-                    <label for="phone_number" class="form-label">Телефон</label>
+                    <label for="id_phone_number" class="form-label">Телефон</label>
                     {{ form.phone_number }}
                     <script>
                         $('.mask-phone').mask('+7 (999) 999-99-99');
                     </script>
                 </div>
                 <div class="col-12">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="id_email" class="form-label">Email</label>
                     {{ form.email }}
                 </div>
                 <div id="input"></div>
@@ -52,7 +52,7 @@
                 </button>
                 {% include 'main/scripts/add_site.html' %}
                 <hr class="my-4">
-                <button class="w-100 btn btn-primary btn-lg" type="submit" formaction="{% url 'result' %}">Отправить</button>
+                <button class="w-100 btn btn-primary btn-lg" type="submit" formaction="{% url 'result2' %}">Отправить</button>
             </div>
         </form>
     </div>

@@ -1,4 +1,5 @@
-from .vk import vk
+from .api import vk
+from .user_search import UserSearch
 
 
 class Users:
@@ -7,16 +8,17 @@ class Users:
         pass
 
     @staticmethod
-    def search(user_data):
-        fullname = user_data.get_fullname()
-        users = vk.users.search(q=fullname, count=1000, **user_data.__dict__)
-        user_ids = []
-        for item in users['items']:
-            user_ids.append(item['id'])
-            
-        return user_ids
+    def get(user_id):
+        fields = [
+            'bdate', 'city', 'connections',
+            'screen_name', 'site', 'universities',
+            'photo_200', 'counters'
+        ]
+
+        response = vk.users.get(user_ids=user_id, fields=fields)
+        return response[0]
 
     @staticmethod
-    def get(user_ids, fields):
-        users = vk.users.get(user_ids=user_ids, fields=fields)
-        return users
+    def search(data):
+        user = UserSearch.run(data)
+        return user

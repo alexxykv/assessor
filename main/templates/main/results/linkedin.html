@@ -20,9 +20,10 @@
             <p class="lead">Email: {{ linkedin.email_address }}</p>
         {% endif %}
         {% if linkedin.websites %}
+            <p class="lead">Личные сайты:</p>
             <ul>
                 {% for site in linkedin.websites %}
-                    <li>{{ site }}</li>
+                    <li>{{ site.url }}</li>
                 {% endfor %}
             </ul>
         {% endif %}
