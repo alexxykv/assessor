@@ -1,12 +1,13 @@
-from .utils import fetch, get_text
+from .utils import fetch, get_HTMLtext
 from .comment import Comment
 from .regex import RegexPost
 from .urls import URL
 
 class Post:
     def __init__(self, post_id):
+
         self.url = URL.post(post_id)
-        text = get_text(self.url)
+        text = get_HTMLtext(self.url)
         self.post_id = post_id
         self.author = self._get_author(text)
         self.time = self._get_time(text)

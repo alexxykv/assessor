@@ -14,13 +14,13 @@
             datasets: [{
                 label: 'Result',
                 data: [
-                    {{ habr.main.karma }},
-                    {{ habr.main.rating }},
-                    {{ habr.main.followers }},
-                    {{ habr.avgs.contribs }},
-                    {{ habr.avgs.voitings }},
-                    {{ habr.avgs.favs_count }},
-                    {{ habr.avgs.views }}],
+                    {{ habr.stats.karma }},
+                    {{ habr.stats.rating }},
+                    {{ habr.stats.followers }},
+                    {{ habr.avg_own.contribs }},
+                    {{ habr.avg_own.voitings }},
+                    {{ habr.avg_own.favs_count }},
+                    {{ habr.avg_own.views }}],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(255, 159, 64, 0.2)',
@@ -43,13 +43,13 @@
             }, {
                 label: 'AVG',
                 data: [
-                    {{ habr.avg_values.karma }},
-                    {{ habr.avg_values.rating }},
-                    {{ habr.avg_values.followers }},
-                    {{ habr.avg_values.contribs }},
-                    {{ habr.avg_values.voitings }},
-                    {{ habr.avg_values.favs_count }},
-                    {{ habr.avg_values.views }}],
+                    {{ habr.avg_all.karma }},
+                    {{ habr.avg_all.rating }},
+                    {{ habr.avg_all.followers }},
+                    {{ habr.avg_all.contribs }},
+                    {{ habr.avg_all.voitings }},
+                    {{ habr.avg_all.favs_count }},
+                    {{ habr.avg_all.views }}],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(255, 159, 64, 0.2)',

@@ -1,8 +1,8 @@
 from django.db import models
 
 class Main(models.Model):
-    firstName = models.CharField('Имя', max_length=25)   # Имя
-    lastName = models.CharField('Фамилия', max_length=25)   # Фамилия
+    first_name = models.CharField('Имя', max_length=25)   # Имя
+    last_name = models.CharField('Фамилия', max_length=25)   # Фамилия
     patronymic = models.CharField('Отчество', max_length=25, blank=True)   # Отчество
     date_birth = models.DateField('Дата рождения', blank=True)
     city = models.CharField('Город', max_length=25, blank=True)
@@ -20,7 +20,7 @@ class Main(models.Model):
     site_10 = models.URLField('Сайт 10', max_length=250, blank=True)
 
     def __str__(self):
-        return self.firstName
+        return self.first_name
 
     class Meta:
         verbose_name = 'Кандидат'

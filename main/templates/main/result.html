@@ -31,7 +31,7 @@
         </div>
         <div class="col">
             {% load static %}
-            <img src="{% if photo %}{{ photo }}{% else %}{% static 'main/img/anon.png' %}{% endif %}" alt="photo"
+            <img src="{% if vk %}{{ vk.photo_200 }}{% else %}{% static 'main/img/anon.png' %}{% endif %}" alt="photo"
                  style="width: 200px; height: 200px;">
         </div>
         <div class="col"></div>
