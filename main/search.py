@@ -9,6 +9,7 @@ class Search:
 
     def __init__(self, data):
         self.data = data
+        self.data['sites_found'] = []
 
     def run(self):
         if 'vk.com' not in self.data['sites']:
@@ -23,6 +24,9 @@ class Search:
         if 'codeforces.com' not in self.data['sites']:
             self.codeforce()
 
+        if 'kaggle.com' not in self.data['sites']:
+            self.kaggle()
+
     def vk(self):
         user_id, nickname = Users.search(self.data)
 
@@ -34,6 +38,7 @@ class Search:
             }
 
             self.data['sites'].update( {'vk.com': site} )
+            self.data['sites_found'].append('vk.com')
 
     def habr(self):
         result = {}
@@ -66,12 +71,13 @@ class Search:
         else:
             if len(searched_by_name) == 1:
                 result.update({
-                    'url': f"{url}/{searched_by_name['nickname']}",
-                    'nickname': searched_by_name['nickname'],
+                    'url': f"{url}/{searched_by_name[0]['nickname']}",
+                    'nickname': searched_by_name[0]['nickname'],
                 })
 
         if result:
             self.data['sites'].update( {'habr.com': result} )
+            self.data['sites_found'].append('habr.com')
 
     def github(self):
         result = {}
@@ -92,6 +98,7 @@ class Search:
 
         if result:
             self.data['sites'].update( {'github.com': result} )
+            self.data['sites_found'].append('github.com')
 
     def codeforce(self):
         result = {}
@@ -111,6 +118,27 @@ class Search:
 
         if result:
             self.data['sites'].update( {'codeforces.com': result} )
+            self.data['sites_found'].append('codeforces.com')
 
     def linkedin(self):
         pass
+
+    def kaggle(self):
+        result = {}
+
+        for _, site in self.data['sites'].items():
+            if result: break
+
+            nickname = site['nickname']
+            response = requests.get(f'https://www.kaggle.com/{nickname}/')
+
+            if response.ok:
+                result.update({
+                    'url': response.url,
+                    'nickname': nickname,
+                })
+                break
+        
+        if result:
+            self.data['sites'].update( {'kaggle.com': result} )
+            self.data['sites_found'].append('kaggle.com')

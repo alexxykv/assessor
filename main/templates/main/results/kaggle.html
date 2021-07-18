@@ -1,0 +1,51 @@
+<div class="row g-3">
+    <div class="col-sm-6">
+        <p class="lead">Имя: {{ kaggle.info.name }}</p>
+        <p class="lead">Организация: {{ kaggle.info.organization }}</p>
+        <p class="lead">Звание: {{ kaggle.info.performanceTier }}</p>
+        <p class="lead">Подписчики: {{ kaggle.info.followers }}</p>
+
+        <hr>
+
+        <h4>Competitions</h4>
+        <p class="lead">Звание: {{ kaggle.competitions.compSummary }}</p>
+        <p class="lead">Всего участвовал в: {{ kaggle.competitions.compTotalResults }}</p>
+        <p class="lead">Текущее место в топе: {{ kaggle.competitions.compRankCurrent }}</p>
+        <p class="lead">Максимальное место в топе: {{ kaggle.competitions.compRankHighest }}</p>
+        <p class="lead">Золотые медальки: {{ kaggle.competitions.compTotalGoldMedals }}</p>
+        <p class="lead">Серебрянные медальки: {{ kaggle.competitions.compTotalSilverMedals }}</p>
+        <p class="lead">Бронзовые медальки: {{ kaggle.competitions.compTotalBronzeMedals }}</p>
+
+        <hr>
+
+        <h4>Datasets</h4>
+        <p class="lead">Звание: {{ kaggle.datasets.datasetsSummary }}</p>
+        <p class="lead">Всего участвовал в: {{ kaggle.datasets.datasetsTotalResults }}</p>
+        <p class="lead">Текущее место в топе: {{ kaggle.datasets.datasetsRankCurrent }}</p>
+        <p class="lead">Максимальное место в топе: {{ kaggle.datasets.datasetsRankHighest }}</p>
+        <p class="lead">Золотые медальки: {{ kaggle.datasets.datasetsTotalGoldMedals }}</p>
+        <p class="lead">Серебрянные медальки: {{ kaggle.datasets.datasetsTotalSilverMedals }}</p>
+        <p class="lead">Бронзовые медальки: {{ kaggle.datasets.datasetsTotalBronzeMedals }}</p>
+    </div>
+    <div class="col-sm-6">
+        <h4>Discussions</h4>
+        <p class="lead">Звание: {{ kaggle.discussions.discussionsSummary }}</p>
+        <p class="lead">Всего участвовал в: {{ kaggle.discussions.discussionsTotalResults }}</p>
+        <p class="lead">Текущее место в топе: {{ kaggle.discussions.discussionsRankCurrent }}</p>
+        <p class="lead">Максимальное место в топе: {{ kaggle.discussions.discussionsRankHighest }}</p>
+        <p class="lead">Золотые медальки: {{ kaggle.discussions.discussionsTotalGoldMedals }}</p>
+        <p class="lead">Серебрянные медальки: {{ kaggle.discussions.discussionsTotalSilverMedals }}</p>
+        <p class="lead">Бронзовые медальки: {{ kaggle.discussions.discussionsTotalBronzeMedals }}</p>
+
+        <hr>
+
+        <h4>Notebooks</h4>
+        <p class="lead">Звание: {{ kaggle.notebooks.scriptsSummary }}</p>
+        <p class="lead">Всего участвовал в: {{ kaggle.notebooks.scriptsTotalResults }}</p>
+        <p class="lead">Текущее место в топе: {{ kaggle.notebooks.scriptsRankCurrent }}</p>
+        <p class="lead">Максимальное место в топе: {{ kaggle.notebooks.scriptsRankHighest }}</p>
+        <p class="lead">Золотые медальки: {{ kaggle.notebooks.scriptsTotalGoldMedals }}</p>
+        <p class="lead">Серебрянные медальки: {{ kaggle.notebooks.scriptsTotalSilverMedals }}</p>
+        <p class="lead">Бронзовые медальки: {{ kaggle.notebooks.scriptsTotalBronzeMedals }}</p>
+    </div>
+</div>

@@ -15,8 +15,11 @@ class Users:
             'photo_200', 'counters'
         ]
 
-        response = vk.users.get(user_ids=user_id, fields=fields)
-        return response[0]
+        try:
+            response = vk.users.get(user_ids=user_id, fields=fields)
+            return response[0]
+        except:
+            return ''
 
     @staticmethod
     def search(data):

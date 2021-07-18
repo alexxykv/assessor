@@ -5,7 +5,7 @@ class RegexUser:
     HUB_ALIAS = r'<a href=".*?/hub/(.*?)/" class="profile-section__user-hub ">.*?</a>'
     STATS = r'<div class="stacked-counter__value .*?">(.*?)</div>'
     SPECIALIZATION = r'<div class="user-info__specialization">(.*?)</div>'
-    RANKED = r'<a href=".*" class="defination-list__link">(\d*).*?</a>'
+    RANKED = r'<a href=".*" class="defination-list__link">(\d*)–й</a>'
     CITY = r'<a .*?city.*? class="defination-list__link".*?>(.*?)</a>'
     REGION = r'<a .*?region.*? class="defination-list__link".*?>(.*?)</a>'
     COUNTRY = r'<a .*?country.*? class="defination-list__link".*?>(.*?)</a>'

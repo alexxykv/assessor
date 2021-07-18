@@ -1,13 +1,13 @@
 class User:
-    KURL = 'https://www.self.kaggle.com'
+    KURL = 'https://www.kaggle.com'
 
     def __init__(self, kaggle):
         self.kaggle = kaggle
-        self.get_info = self.get_info()
-        self.get_competitions = self.get_competitions()
-        self.get_notebooks = self.get_notebooks()
-        self.get_datasets = self.get_datasets()
-        self.get_discussions = self.get_discussions()
+        self.info = self.get_info()
+        self.competitions = self.get_competitions()
+        self.notebooks = self.get_notebooks()
+        self.datasets = self.get_datasets()
+        self.discussions = self.get_discussions()
 
 
     def get_info(self):

@@ -1,6 +1,7 @@
 from parsing import habr
 from parsing.github import gitpars
 from parsing.codeforces import codeforces
+from parsing.kaggle import kaggle
 from linkedin_api import Linkedin
 from vk_finder.users import Users
 
@@ -25,6 +26,7 @@ class Processor:
             'linkedin.com': self.linkedin,
             'codeforces.com': self.codeforces,
             'vk.com': self.vk,
+            'kaggle.com': self.kaggle,
         }
 
         sites = self.data['sites']
@@ -134,7 +136,6 @@ class Processor:
 
         return result
 
-
     def vk(self):
         user_id, user_nickname = ['', '']
 
@@ -146,3 +147,18 @@ class Processor:
         user_info = Users.get(user_id or user_nickname)
 
         return user_info
+
+    def kaggle(self):
+        nickname = self.data['sites']['kaggle.com']['nickname']
+        user = kaggle.Kaggle.get_user(nickname)
+        result = {}
+
+        result.update({
+            'info': user.info,
+            'competitions': user.competitions,
+            'notebooks' : user.notebooks,
+            'datasets': user.datasets,
+            'discussions': user.discussions,
+        })
+
+        return result

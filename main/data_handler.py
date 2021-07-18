@@ -8,14 +8,15 @@ class DataHandler:
         'habr.com': r'https://habr.com/ru/users/(.*?)/.*',
         'linkedin.com': r'https://www.linkedin.com/in/(.*?)/.*',
         'codeforces.com': r'https://codeforces.com/profile/(.*?)/.*',
-        'vk.com': r'https://vk.com/i?d?(.*?)/.*'
+        'vk.com': r'https://vk.com/i?d?(.*?)/.*',
+        'kaggle.com': r'https://www.kaggle.com/(.*?)/.*',
     }
 
     @staticmethod
     def process(raw_data):
         data = {}
         urls = []
-        convert_url = '/result2/convert?'
+        convert_url = '/result/convert?'
 
         for key, value in raw_data.items():
             if key == 'csrfmiddlewaretoken':
@@ -44,10 +45,12 @@ class DataHandler:
         for url in urls:
             for domen in DataHandler.SITES:
                 if domen in url:
-                    sites[domen] = {
-                        'url': url,
-                        'nickname': DataHandler.fetch_nickname(url, domen)
-                    }
+                    nickname = DataHandler.fetch_nickname(url, domen)
+                    if nickname:
+                        sites[domen] = {
+                            'url': url,
+                            'nickname': nickname,
+                        }
 
         return sites
 
@@ -56,4 +59,6 @@ class DataHandler:
         pattern = DataHandler.SITES[domen]
         fetched = re.findall(pattern, url)
 
-        return fetched[0]
+        if fetched:
+            return fetched[0]
+        return ''

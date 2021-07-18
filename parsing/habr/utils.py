@@ -19,7 +19,7 @@ def get_HTMLtext(url):
         text = response.text
         return text
     else:
-        return response
+        return ''
 
 
 def stats_handler(stats):

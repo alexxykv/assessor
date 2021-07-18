@@ -95,6 +95,22 @@
     {% endif %}
     <!-- END CODEFORCES -->
 
+    <!-- KAGGLE -->
+    {% if kaggle %}
+        <h4 class="mb-4">Kaggle <a href="#"
+            onclick="show('show_kaggle', 'hide_kaggle'); view('hidden_kaggle'); return false">
+        <span><i class="fas fa-caret-square-down" id="show_kaggle"></i></span>
+        <span id="hide_kaggle"></span>
+        </a>
+        </h4>
+        <hr class="my-4">
+        <div id="hidden_kaggle" style="display: block;">
+            {% include 'main/results/kaggle.html' %}
+        </div>
+        <hr class="my-2">
+    {% endif %}
+    <!-- END KAGGLE -->
+
     {% include 'main/scripts/show_hide.html' %}
     <!-- SHERLOCK -->
     {% if sherlock %}

@@ -22,7 +22,7 @@ class Kaggle:
     def get_user(nickname):
         url = 'https://www.kaggle.com/' + nickname
         kaggle = Kaggle._kaggle_dict(url)
-        print(kaggle)
+
         if kaggle:
             user = User(kaggle)
             return user
